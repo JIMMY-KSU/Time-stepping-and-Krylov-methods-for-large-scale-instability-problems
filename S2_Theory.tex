@@ -3,9 +3,17 @@
 
   Our attention is focused on the characterization of very high-dimensional nonlinear dynamical systems resulting from the spatial discretization of partial differential equations, e.g.\ the Navier-Stokes equations. Such dynamical systems can be written as
   \begin{equation}
-    \displaystyle \frac{\mathrm{d} {\bf x}}{\mathrm{d}t} = \mathcal{F}({\bf x}, \mu),
+    \displaystyle \frac{\mathrm{d} {\bf x}}{\mathrm{d}t} = f({\bf x}, \mu),
+    \label{eq: continuous-time dynamical system}
   \end{equation}
-where ${\bf x}$ is the $n \times 1$ state vector of the system, $t$ is time, $\mu$ is a control parameter and $\mathcal{F} : \mathbb{R}^n \to \mathbb{R}^n $ is the nonlinear dynamics. In this section, the reader will be introduced to the concepts of fixed points and linear stability. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two fundamental concepts that have become prevalent in fluid dynamics over the past two decades. Note that the concept of \emph{nonlinear optimal perturbation} is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{???} and references therein.
+  where ${\bf x}$ is the $n \times 1$ state vector of the system, $t$ is time, $\mu$ is a control parameter and $f : \mathbb{R}^n \to \mathbb{R}^n $ is a nonlinear function. Alternatively, if temporal discretization is also accounted for, one can consider a discrete-time nonlinear dynamical system given by
+  \begin{equation}
+    {\bf x}^{(n+1)} = \mathcal{F} ( {\bf x}^{(n)}, \mu ),
+    \label{eq: discrete-time dynamical system}
+  \end{equation}
+  where $\mathcal{F} : \mathbb{R}^n \to \mathbb{R}^n$ is the discrete-time counterpart to $f$. Note that both continuous-time and discrete-time representation of the high-dimensional dynamical system considered will be used throughout this contribution, depending on which is the most convenient for the particular task considered.
+
+  As a prerequisite for \textsection \ref{sec: numerics}, the reader will first be introduced to the concepts of fixed points and linear stability. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two fundamental concepts that have become prevalent in fluid dynamics over the past two decades. Note that the concept of \emph{nonlinear optimal perturbation} is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{???} and references therein.
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,12 +22,22 @@ where ${\bf x}$ is the $n \times 1$ state vector of the system, $t$ is time, $\m
   %%%%%                      %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \subsection{Fixed points}
+  \subsection{Equilibria and fixed points}
   \label{subsec: theory-fixed points}
 
+  Nonlinear dynamical systems described by Eq.~\eqref{eq: continuous-time dynamical system} or Eq.~\eqref{eq: discrete-time dynamical system} tend to admit a number of different equilibria forming the backbone of their phase space. These different equilibria can take the form of fixed points, periodic orbits or stange attractors for instance. In the rest of this work, our attention will be solely focused on fixed points.
 
-
-
+  For a continuous-time dynamical system described by Eq.~\eqref{eq: continuous-time dynamical system}, fixed points ${\bf x}^{*}$ are solution to
+  \begin{equation}
+    f({\bf x}^*, \mu) = 0.
+    \label{eq: continuous-time fixed point}
+  \end{equation}
+  Conversely, fixed points ${\bf x}^*$ of a discrete-time dynamical system described by Eq.~\eqref{eq: discrete-time dynamical system} are solution to
+  \begin{equation}
+    \mathcal{F}({\bf x}^*, \mu) = {\bf x}^*.
+    \label{eq: discrete-time fixed point}
+  \end{equation}
+  It must be emphasized that both Eq.~\eqref{eq: continuous-time fixed point} and Eq.~\eqref{eq: discrete-time fixed point} may admit multiple solutions. Determining which of these fixed points is the most relevant one from a physical point of view is problem-dependent and left for the user to decide. Note however that computing these equilibrium points is a prerequisite to all of the analyses to be described in this chapter. Numerical methods to solve Eq.~\eqref{eq: continuous-time fixed point} or Eq.~\eqref{eq: discrete-time fixed point} are discussed in \textsection \ref{subsec: numerics-fixed points computation}.
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%                         %%%%%
