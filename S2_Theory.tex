@@ -1,19 +1,35 @@
 \section{Theoretical framework}
 \label{sec: theory}
 
-  Our attention is focused on the characterization of very high-dimensional nonlinear dynamical systems resulting from the spatial discretization of partial differential equations, e.g.\ the Navier-Stokes equations. Such dynamical systems can be written as
+  Our attention is focused on the characterization of very high-dimensional nonlinear dynamical systems typically arising from the spatial discretization of partial differential equations such as the incompressible Navier-Stokes equations. In general, the resulting dynamical equations are written down as a system of first order differential equations
   \begin{equation}
-    \displaystyle \frac{\mathrm{d} {\bf x}}{\mathrm{d}t} = f({\bf x}, \mu),
-    \label{eq: continuous-time dynamical system}
+    \dot{X}_j = \mathcal{F}_j \left( \left\{ X_i(t);\ i =1, \cdots, n \right\}, t \right)
+    \notag
   \end{equation}
-  where ${\bf x}$ is the $n \times 1$ state vector of the system, $t$ is time, $\mu$ is a control parameter and $f : \mathbb{R}^n \to \mathbb{R}^n $ is a nonlinear function. Alternatively, if temporal discretization is also accounted for, one can consider a discrete-time nonlinear dynamical system given by
+  where the integer $n$ is the \emph{dimension} of the system, and $\dot{X}_j$ denotes the time-derivative of $X_j$. Using the notation $\bf{X}$ and $\mathbfcal{F}$ for the sets $\left\{ X_j,\ i =1, \cdots, n \right\}$ and $\left\{ \mathcal{F}_j,\ i =1, \cdots, n \right\}$, this system can be compactly written as
   \begin{equation}
-    {\bf x}^{(n+1)} = \mathcal{F} ( {\bf x}^{(n)}, \mu ),
-    \label{eq: discrete-time dynamical system}
+    \dot{\mathbf{X}} = \mathbfcal{F}(\mathbf{X}, t),
+    \label{eq: theory -- continuous-time dynamical system}
   \end{equation}
-  where $\mathcal{F} : \mathbb{R}^n \to \mathbb{R}^n$ is the discrete-time counterpart to $f$. Note that both continuous-time and discrete-time representation of the high-dimensional dynamical system considered will be used throughout this contribution, depending on which is the most convenient for the particular task considered.
+  where $\mathbf{X}$ is the $n \times 1$ \emph{state vector} of the system and $t$ is a continuous variable denoting time. Alternatively, accounting also for temporal discretization gives rise to a discrete-time dynamical system
+  \begin{equation}
+    X_{j, k+1} = \Phi_j \left( \left\{ X_{i, k};\ i = 1, \cdots, n \right\}, k \right)
+  \end{equation}
+  or formally
+  \begin{equation}
+    \mathbf{X}_{k+1} = \bm{\Phi}(\mathbf{X}_k, k)
+    \label{eq: theory -- discrete-time dynamical system}
+  \end{equation}
+  where the index $k$ now denotes the discrete time variable. If one uses first-order Euler extrapolation for the time discretization, the relation between $\mathbfcal{F}$ and $\bm{\Phi}$ is given by
+  \begin{equation}
+    \bm{\Phi}(\mathbf{X}) = \mathbf{X} + \Updelta t \mathbfcal{F}\left( \mathbf{X} \right),
+    \notag
+  \end{equation}
+  where $\Updelta t$ is the time-step and the explicit dependences on $t$ and $k$ have been dropped for the sake of simplicity.
 
-  As a prerequisite for \textsection \ref{sec: numerics}, the reader will first be introduced to the concepts of fixed points and linear stability. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two fundamental concepts that have become prevalent in fluid dynamics over the past two decades. Note that the concept of \emph{nonlinear optimal perturbation} is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{???} and references therein.
+  In the rest of this section, the reader will be introduced to the concepts of fixed points and linear stability, two concepts required to characterize a number of properties of the system investigated. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two approaches that have become increasingly popular in fluid dynamics over the past decades. Note that the concept of \emph{nonlinear optimal perturbation}, which as raised a lot attention lately, is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{nonlinear_optimal:kerswell:2014} and references therein.
+
+  Finally, while we will mostly use the continuous-time representation \eqref{eq: theory -- continuous-time dynamical system} when introducing the reader to the theoretical concepts exposed in this section, using the discrete-time representation \eqref{eq: theory -- discrete-time dynamical system} will prove more useful when discussing and implementing the different algorithms presented in \textsection \ref{sec: numerics}.
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,33 +38,94 @@
   %%%%%                      %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \subsection{Equilibria and fixed points}
+  \subsection{Fixed points}
   \label{subsec: theory-fixed points}
 
-  Nonlinear dynamical systems described by Eq.~\eqref{eq: continuous-time dynamical system} or Eq.~\eqref{eq: discrete-time dynamical system} tend to admit a number of different equilibria forming the backbone of their phase space. These different equilibria can take the form of fixed points, periodic orbits or stange attractors for instance. In the rest of this work, our attention will be solely focused on fixed points.
+  Nonlinear dynamical systems described by Eq.~\eqref{eq: theory -- continuous-time dynamical system} or Eq.~\eqref{eq: theory -- discrete-time dynamical system} tend to admit a number of different equilibria forming the backbone of their phase space. These different equilibria can take the form of fixed points, periodic orbits or strange attractors for instance. In the rest of this work, our attention will be solely focused on fixed points.
 
-  For a continuous-time dynamical system described by Eq.~\eqref{eq: continuous-time dynamical system}, fixed points ${\bf x}^{*}$ are solution to
+  For a continuous-time dynamical system described by Eq.~\eqref{eq: theory -- continuous-time dynamical system}, fixed points $\mathbf{X}^{*}$ are solution to
   \begin{equation}
-    f({\bf x}^*, \mu) = 0.
-    \label{eq: continuous-time fixed point}
+    \mathbfcal{F}\left( \mathbf{X} \right) = 0.
+    \label{eq: theory -- continuous-time fixed point}
   \end{equation}
-  Conversely, fixed points ${\bf x}^*$ of a discrete-time dynamical system described by Eq.~\eqref{eq: discrete-time dynamical system} are solution to
+  Conversely, fixed points $\mathbf{X}^*$ of a discrete-time dynamical system described by Eq.~\eqref{eq: theory -- discrete-time dynamical system} are solution to
   \begin{equation}
-    \mathcal{F}({\bf x}^*, \mu) = {\bf x}^*.
-    \label{eq: discrete-time fixed point}
+    \bm{\Phi} \left( \mathbf{X} \right) = \mathbf{X}.
+    \label{eq: theory -- discrete-time fixed point}
   \end{equation}
-  It must be emphasized that both Eq.~\eqref{eq: continuous-time fixed point} and Eq.~\eqref{eq: discrete-time fixed point} may admit multiple solutions. Determining which of these fixed points is the most relevant one from a physical point of view is problem-dependent and left for the user to decide. Note however that computing these equilibrium points is a prerequisite to all of the analyses to be described in this chapter. Numerical methods to solve Eq.~\eqref{eq: continuous-time fixed point} or Eq.~\eqref{eq: discrete-time fixed point} are discussed in \textsection \ref{subsec: numerics-fixed points computation}.
+  It must be emphasized that both Eq.~\eqref{eq: theory -- continuous-time fixed point} and Eq.~\eqref{eq: theory -- discrete-time fixed point} may admit multiple solutions. Such a multiplicity of fixed points can easily be illustrated by a simple Duffing oscillator given by
+  \begin{equation}
+    \begin{aligned}
+      \dot{x} & = y \\
+      \dot{y} & = -\displaystyle \frac{1}{2} y + x - x^3.
+    \end{aligned}
+    \label{eq: theory -- Duffing oscillator}
+  \end{equation}
+  Despite its apparent simplicity, this Duffing oscillator admits three fixed points, namely
+  \begin{itemize}
+    \item a saddle at the origin $\mathbf{X}^* = (0, 0)$,
+    \item two linearly stable spirals located at $\mathbf{X}^* = (\pm 1, 0)$.
+  \end{itemize}
+  All of these fixed points, along with some trajectories, are depicted on figure \ref{fig: theory -- Duffing oscillator} for the sake of illustration. Such a multiplicity of fixed points also occurs in dynamical systems as complex as the Navier-Stokes equations. Determining which of these fixed points is the most relevant one from a physical point of view is problem-dependent and left for the user to decide. Note however that computing these equilibrium points is a prerequisite to all of the analyses to be described in this chapter. Numerical methods to solve Eq.~\eqref{eq: theory -- continuous-time fixed point} or Eq.~\eqref{eq: theory -- discrete-time fixed point} will be discussed in \textsection \ref{subsec: numerics-fixed points computation}.
 
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%                         %%%%%
-  %%%%%     MODAL STABILITY     %%%%%
-  %%%%%                         %%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{figure}[b]
+    \centering
+    \sidecaption
+    \includegraphics[scale=1]{duffing_oscillator_saddle_manifold}
+    \caption{Phase portrait of the unforced Duffing oscillator \eqref{eq: theory -- Duffing oscillator}. The red dots denote the three fixed points admitted by the system. The blue (resp. orange) thick line depicts the stable (resp. unstable) manifold of the saddle point located at the origin. Grey lines highlight a few trajectories exhibited for different initial conditions.}
+    \label{fig: theory -- Duffing oscillator}
+  \end{figure}
 
-  \subsection{Modal stability analysis}
-  \label{subsec: theory-modal stability}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%                          %%%%%
+  %%%%%     LINEAR STABILITY     %%%%%
+  %%%%%                          %%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  \subsection{Linear stability analysis}
+  \label{subsec: theory -- linear stability}
 
+  Having computed a given fixed point $\mathbf{X}^*$ of a continuous-time nonlinear dynamical system given by Eq. \eqref{eq: theory -- continuous-time dynamical system}, one may ask whether it corresponds to a stable or unstable equilibrium of the system. Before pursuing, the very notion of \emph{stability} needs to be explained. It is traditionally defined following the concept of Lyapunov stability. Having computed the equilibrium state $\mathbf{X}^*$, the system is perturbed around this state. If it returns back to the equilibrium point, the latter is deemed stable, otherwise, it is regarded as unstable. It has to be noted that, in the concept of Lyapunov stability, an infinite time horizon is allowed for the return to equilibrium.
+
+  The dynamics of a perturbation $\mathbf{x} = \mathbf{X} - \mathbf{X}^*$ are governed by
+  \begin{equation}
+    \dot{\mathbf{x}} = \mathbfcal{F}(\mathbf{X}^* + \mathbf{x}).
+  \end{equation}
+  Assuming the perturbation $\mathbf{x}$ is infinitesimal, $\mathbfcal{F}(\mathbf{X})$ can be approximated by its first-order Taylor expansion around $\mathbf{X} = \mathbf{X}^*$. Doing so, the governing equations for the perturbation $\mathbf{x}$ simplify to
+  \begin{equation}
+    \dot{\mathbf{x}} = \mathbfcal{A}\mathbf{x},
+    \label{eq: theory -- linear perturbation dynamics}
+  \end{equation}
+  where $\mathbfcal{A}$ is the $n \times n$ Jacobian matrix of $\mathbfcal{F}$. Starting from an initial condition $\mathbf{x}_0$, the perturbation at time $t$ is given by
+  \begin{equation}
+    \mathbf{x}(t) = \exp \left( \mathbfcal{A}t \right) \mathbf{x}_0.
+    \label{eq: theory -- linear stability solution}
+  \end{equation}
+  The operator $\mathbfcal{M}(t) = \exp \left( \mathbfcal{A}t \right)$ is known as the \emph{exponential propagator}. Introducing the spectral decomposition of $\mathbfcal{A}$
+  \begin{equation}
+    \mathbfcal{A} = \mathbfcal{V} \boldsymbol{\Lambda} \mathbfcal{V}^{-1},
+    \notag
+  \end{equation}
+  Eq. \eqref{eq: theory -- linear stability solution} can be rewritten as
+  \begin{equation}
+    \mathbf{x}(t) = \mathbfcal{V} \exp \left( \boldsymbol{\Lambda} t \right) \mathbfcal{V}^{-1} \mathbf{x}_0,
+  \end{equation}
+  where the i\textsuperscript{th} column of $\mathbfcal{V}$ is the eigenvector $\mathbf{v}_i$ associated to the i\textsuperscript{th} eigenvalue $\lambda_i = \boldsymbol{\Lambda}_{ii}$. Assuming that the eigenvalues of $\mathbfcal{A}$ have been sorted by decreasing real part, it can easily be shown that
+  \begin{equation}
+    \lim\limits_{t \to + \infty} \exp \left( \mathbfcal{A} t \right) \mathbf{x}_0 = \lim \limits_{t \to + \infty} \exp \left( \lambda_1 t \right) \mathbf{v}_1 .
+    \notag
+  \end{equation}
+  The asymptotic fate of an initial perturbation $\mathbf{x}_0$ is thus entirely dictated by the real part of the leading eigenvalue $\lambda_1$:
+  \begin{itemize}
+    \item if $\Re \left( \lambda_1 \right) > 0$, a random initial perturbation $\mathbf{x}_0$ will eventually grow exponentially fast. Hence, the fixed point $\mathbf{X}^*$ is deemed \emph{linearly unstable}.
+
+    \item If $\Re \left( \lambda_1 \right) < 0$, the initial perturbation $\mathbf{x}_0$ will eventually decay exponentially rapidly. The fixed point $\mathbf{X}^*$ is thus \emph{linearly stable}.
+  \end{itemize}
+  The case $\Re \left( \lambda_1 \right) = 0$ is peculiar. The fixed point $\mathbf{X}^*$ is called \emph{elliptic} and one cannot conclude about its stability solely by looking at the eigenvalues of $\mathbfcal{A}$. In this case, one needs to resort to \emph{weakly non-linear analysis} which essentially looks at the properties of higher-order Taylor expansion of $\mathbfcal{F} \left( \mathbf{X} \right)$. Once again, this is beyond the scope of the present chapter. Interested readers are referred to \cite{??} for more details about such analyses.
+
+  \paragraph*{Illustration}
+
+  Let us illustrate the notion of linear stability on a simple example. For that purpose, we will consider the same linear dynamical system as in \cite{amr:schmid:2014}.
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,11 +135,11 @@
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   \subsection{Non-modal stability analysis}
-  \label{subsec: theory-non-modal stability}
+  \label{subsec: theory -- non-modal stability}
 
     %-----> Optimal perturbation.
     \subsubsection{Optimal perturbation}
-    \label{subsubsec: theory-optimal perturbation}
+    \label{subsubsec: theory -- optimal perturbation}
 
       %--> A Rayleigh quotient problem.
       \paragraph{Formulation using Rayleigh quotient}
@@ -72,10 +149,19 @@
 
     %-----> Optimal forcing.
     \subsubsection{Resolvent analysis}
-    \label{subsubsec: theory-resolvent}
+    \label{subsubsec: theory -- resolvent}
 
         %--> A Rayleigh quotient problem.
         \paragraph{Formulation using Rayleigh quotient}
 
         % --> Lagrange multipliers.
         \paragraph{Formulation using Lagrange multipliers}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%                                             %%%%%
+  %%%%%     KRYLOV METHODS FOR LINEAR EQUATIONS     %%%%%
+  %%%%%                                             %%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \subsection{Krylov methods for for solving linear systems}
+  \label{subsubsec: theory -- krylov methods}

@@ -29,6 +29,13 @@
 % in the Reference Guide
 
 \usepackage[]{amssymb, amsmath}
+\usepackage[]{bm}
+\usepackage[]{upgreek}
+\usepackage[]{graphicx}
+
+\DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\DeclareMathAlphabet\mathbfcal{OMS}{cmsy}{b}{n}
+\graphicspath{{imgs/}}
 
 \makeindex             % used for the subject index
                        % please use the style svind.ist with
@@ -44,10 +51,10 @@
 \author{J.-Ch. Loiseau \and M. A. Bucci \and S. Cherubini \and J.-Ch. Robinet}
 % Use \authorrunning{Short Title} for an abbreviated version of
 % your contribution title if the original one is too long
-\institute{J.-Ch. Loiseau \at Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France \email{jean-christophe.loiseau@ensam.eu}
-\and M. A. Bucci \at  Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France \email{michele.bucci@ensam.eu}
-\and S. Cherubini \at ???, ???, Bari, Italy \email{???@gmail.com}
-\and J.-Ch. Robinet \at  Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France \email{jean-christophe.robinet@ensam.eu}}
+\institute{J.-Ch. Loiseau \at Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France. \email{jean-christophe.loiseau@ensam.eu}
+\and M. A. Bucci \at  Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France. \email{michele.bucci@ensam.eu}
+\and S. Cherubini \at DMMM, Politecnico di Bari, via Re David 200, 70100 Bari, Italy. \email{s.cherubini@gmail.com}
+\and J.-Ch. Robinet \at  Laboratoire DynFluid, Arts et M\'etiers ParisTech, 151 boulevard de l'h\^opital, 75013 Paris, France. \email{jean-christophe.robinet@ensam.eu}}
 %
 % Use the package "url.sty" to avoid
 % problems with special characters
@@ -86,5 +93,9 @@
 
 % --> Conclusion and perspectives.
 \input{S5_Conclusion.tex}
+
+
+\bibliography{bibliography}
+\bibliographystyle{plain}
 
 \end{document}
