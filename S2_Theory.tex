@@ -125,8 +125,37 @@
 
   \paragraph*{Illustration}
 
-  Let us illustrate the notion of linear stability on a simple example. For that purpose, we will consider the same linear dynamical system as in \cite{amr:schmid:2014}.
+  Let us illustrate the notion of linear stability on a simple example. For that purpose, we will consider the same linear dynamical system as in \cite{amr:schmid:2014}. This system reads
+  \begin{equation}
+    \displaystyle \frac{\mathrm{d}}{\mathrm{d}t} \begin{bmatrix} x_1 \\ x_2 \end{bmatrix} =
+    \underbrace{
+    \begin{bmatrix}
+      \displaystyle \frac{1}{100} - \frac{1}{Re} & 0 \\
+      1 & \displaystyle -\frac{2}{Re}
+    \end{bmatrix}
+    }_{\mathbfcal{A}}
+    \begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
+    \label{eq: theory -- schmid system}
+  \end{equation}
+  where $Re$ is a control parameter. For such a simple case, it is obvious that the eigenvalues of $\mathbfcal{A}$ are given by
+  \begin{equation}
+    \lambda_1 = \displaystyle \frac{1}{100} - \frac{1}{Re}
+    \notag
+  \end{equation}
+  and
+  \begin{equation}
+    \lambda_2 = - \frac{2}{Re}.
+    \notag
+  \end{equation}
+  While $\lambda_2$ is constantly negative, $\lambda_1$ is negative for $Re < 100$ and positive otherwise. Figure \ref{fig: theory -- illustration modal stability} depicts the time-evolution of $\| \mathbf{x} \|_2^2 = x_1^2 + x_2^2$ for two different values of $Re$. Please note that the short-time ($t < 100$) behavior of the perturbation will be discussed in \textsection \ref{subsec: theory -- non-modal stability}. It is clear nonetheless that, for $t>100$, the time-evolution of the perturbation can be described by an exponential function. Whether this exponential increases or decreases as a function of time is solely dictated by the sign of $\lambda_1$, negative for $Re=50$ and postive for $Re=100$. For $Re=50$, the equilibrium $\mathbf{x} = \begin{bmatrix} 0 & 0 \end{bmatrix}^T$ is thus stable, while it is unstable for $Re=125$.
 
+  \begin{figure}[b]
+    \centering
+    \sidecaption
+    \includegraphics[scale=1]{S2_Theory_illustration_linear_stability}
+    \caption{Evolution as a function of time of $\| \mathbf{x} \|_2^2 = x_1^2 + x_2^2$ for the toy-model \eqref{eq: theory -- schmid system}. For $Re=50$ (resp. $Re=125$), the asymptotic fate of $\| \mathbf{x} \|_2^2$ is described by a decreasing (resp. increasing) exponential. For $Re=50$, the equilibrium point is thus linear stable, while it is linearly unstable for $Re=125$.}
+    \label{fig: theory -- illustration modal stability}
+  \end{figure}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%                                      %%%%%
