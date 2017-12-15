@@ -217,15 +217,30 @@
       where the objective function $\mathcal{J} \left( \mathbf{x} \right)$ and the inequality constraints functions $g_i \left( \mathbf{x} \right)$ are convex. The conditions on the equality constraints functions $h_i \left( \mathbf{x} \right)$ are more restrictive as they need to be affine functions, i.e.\ of the form $h_i \left( \mathbf{x} \right) = \mathbf{a}_i^T \mathbf{x} + b_i$. See the book by Boyd \& Vandenberghe \cite{book:boyd:2004} for extensive details about convex optimization.}.
       As such, it may exhibit local maxima. Nonetheless, this constrained maximization problem can be recast into the following unconstrained maximization problem
       \begin{equation}
-        \maximize \limits_{\mathbf{x}_0, \mathbf{v}, \mu} \mathcal{L} \left( \mathbf{x}_0, \mathbf{v}, \mu \right),
+        \maximize \limits_{\mathbf{x}, \mathbf{v}, \mu} \mathcal{L} \left( \mathbf{x}, \mathbf{v}, \mu \right),
         \label{eq: theory -- unconstrained maximization}
       \end{equation}
       where
       \begin{equation}
-        \mathcal{L} \left( \mathbf{x}_0, \mathbf{v}, \mu \right) = \mathcal{J}\left( \mathbf{x}_0 \right) + \mathbf{v}^T \left( \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} \right) + \mu \| \mathbf{x}_0 \|_2^2
+        \mathcal{L} \left( \mathbf{x}, \mathbf{v}, \mu \right) = \mathcal{J}\left( \mathbf{x}_0 \right) + \int_{0}^T \mathbf{v}^T \left( \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} \right) \mathrm{d}t + \mu \left( \| \mathbf{x}_0 \|_2^2 - 1 \right)
         \label{eq: theory -- augmented Lagrangian}
       \end{equation}
-      is known as the \emph{augmented Lagrangian} function. The additional optimization variables $\mathbf{v}$ and $\mu$ appearing in the definition of the augmented Lagrangian $\mathcal{L}$ are called \emph{Lagrange multipliers}.
+      is known as the \emph{augmented Lagrangian} function. The additional optimization variables $\mathbf{v}$ and $\mu$ appearing in the definition of the augmented Lagrangian $\mathcal{L}$ are called \emph{Lagrange multipliers}. Solutions to problem \eqref{eq: theory -- unconstrained maximization} are identified by vanishing first variations of $\mathcal{L}$ with respect to our three optimization variables. The first variation of $\mathcal{L}$ with respect to $\mathbf{v}$ and $\mu$ are simply the constraints of our original problem \eqref{eq: theory -- constrained maximization}. The first variation of $\mathcal{L}$ with respect to $\mathbf{x}$ on the other hand is given by
+      \begin{equation}
+        \mathbf{0} = \left[ \nabla_{\mathbf{x}} \mathcal{J} + \mathbf{v}(T) \right] \cdot \delta \mathbf{x}(0) + \int_0^T \left[ \dot{\mathbf{v}} - \mathbfcal{A}^H \mathbf{v} \right] \cdot \delta \mathbf{x} \ \mathrm{dt} + \left[ 2\mu \mathbf{x}_0 - \mathbf{v}(0) \right] \cdot \delta \mathbf{x}(0).
+        \label{eq: theory -- optimality condition}
+      \end{equation}
+      Eq. \eqref{eq: theory -- optimality condition} vanishes only if
+      \begin{equation}
+        \dot{\mathbf{v}} = \mathbfcal{A}^H \mathbf{v} \ \text{ over } t \in \left( 0, T \right),
+        \label{eq: theory -- adjoint equations}
+      \end{equation}
+      and
+      \begin{equation}
+        \nabla_{\mathbf{x}} \mathcal{J} - \mathbf{v}(T) = 2\mu \mathbf{x}(0) - \mathbf{v}(0) = 0.
+        \label{eq: theory -- compatibility conditions}
+      \end{equation}
+      Note that Eq. \eqref{eq: theory -- adjoint equations} is known as the adjoint system of our original linear dynamical system. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general iteratively by gradient-based algorithms such as gradient descent or the rotation-update gradient algorithm that will be described in \textsection \ref{sec: numerics}. For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
 
       %--> A Rayleigh quotient problem.
       \paragraph{Formulation using SVD}
