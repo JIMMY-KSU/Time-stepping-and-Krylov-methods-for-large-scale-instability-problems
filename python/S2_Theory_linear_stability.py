@@ -66,4 +66,5 @@ if __name__ == '__main__':
     ax.legend(loc=0)
 
     plt.savefig('../imgs/S2_Theory_illustration_linear_stability.pdf', bbox_inches='tight', dpi=1200)
+
     plt.show()

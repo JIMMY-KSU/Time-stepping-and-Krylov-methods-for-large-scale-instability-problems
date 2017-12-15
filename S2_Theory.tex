@@ -110,7 +110,7 @@
   \begin{equation}
     \mathbf{x}(t) = \mathbfcal{V} \exp \left( \boldsymbol{\Lambda} t \right) \mathbfcal{V}^{-1} \mathbf{x}_0,
   \end{equation}
-  where the i\textsuperscript{th} column of $\mathbfcal{V}$ is the eigenvector $\mathbf{v}_i$ associated to the i\textsuperscript{th} eigenvalue $\lambda_i = \boldsymbol{\Lambda}_{ii}$. Assuming that the eigenvalues of $\mathbfcal{A}$ have been sorted by decreasing real part, it can easily be shown that
+  where the i\textsuperscript{th} column of $\mathbfcal{V}$ is the eigenvector $\mathbf{v}_i$ associated to the i\textsuperscript{th} eigenvalue $\lambda_i = \boldsymbol{\Lambda}_{ii}$, with $\boldsymbol{\Lambda}$ a diagonal matrix. Assuming that the eigenvalues of $\mathbfcal{A}$ have been sorted by decreasing real part, it can easily be shown that
   \begin{equation}
     \lim\limits_{t \to + \infty} \exp \left( \mathbfcal{A} t \right) \mathbf{x}_0 = \lim \limits_{t \to + \infty} \exp \left( \lambda_1 t \right) \mathbf{v}_1 .
     \notag
@@ -147,7 +147,7 @@
     \lambda_2 = - \frac{2}{Re}.
     \notag
   \end{equation}
-  While $\lambda_2$ is constantly negative, $\lambda_1$ is negative for $Re < 100$ and positive otherwise. Figure \ref{fig: theory -- illustration modal stability} depicts the time-evolution of $\| \mathbf{x} \|_2^2 = x_1^2 + x_2^2$ for two different values of $Re$. Please note that the short-time ($t < 100$) behavior of the perturbation will be discussed in \textsection \ref{subsec: theory -- non-modal stability}. It is clear nonetheless that, for $t>100$, the time-evolution of the perturbation can be described by an exponential function. Whether this exponential increases or decreases as a function of time is solely dictated by the sign of $\lambda_1$, negative for $Re=50$ and postive for $Re=100$. For $Re=50$, the equilibrium $\mathbf{x} = \begin{bmatrix} 0 & 0 \end{bmatrix}^T$ is thus stable, while it is unstable for $Re=125$.
+  While $\lambda_2$ is constantly negative, $\lambda_1$ is negative for $Re < 100$ and positive otherwise. Figure \ref{fig: theory -- illustration modal stability} depicts the time-evolution of $\| \mathbf{x} \|_2^2 = x_1^2 + x_2^2$ for two different values of $Re$. Please note that the short-time ($t < 100$) behavior of the perturbation will be discussed in \textsection \ref{subsec: theory -- non-modal stability}. It is clear nonetheless that, for $t>100$, the time-evolution of the perturbation can be described by an exponential function. Whether this exponential increases or decreases as a function of time is solely dictated by the sign of $\lambda_1$, negative for $Re=50$ and positive for $Re=100$. For $Re=50$, the equilibrium point $\mathbf{X}^* = \begin{bmatrix} 0 & 0 \end{bmatrix}^T$ is thus stable, while it is unstable for $Re=125$.
 
   \begin{figure}[b]
     \centering
@@ -166,31 +166,67 @@
   \subsection{Non-modal stability analysis}
   \label{subsec: theory -- non-modal stability}
 
+  Looking at figure \ref{fig: theory -- illustration modal stability}, it can be seen that, although the system is linearly stable for $Re=50$, the perturbation $\mathbf{x}$ can experience a transient growth of its energy for a short period of time, roughly given by $0 < t <100$ in the present case, before its eventual exponential decay. This behavior is related to the \emph{non-normality} of $\mathbfcal{A}$, i.e.\
+  \begin{equation}
+    \mathbfcal{A}^H \mathbfcal{A} \neq \mathbfcal{A} \mathbfcal{A}^H,
+    \label{eq: theory -- non-normality equation}
+  \end{equation}
+  where $\mathbfcal{A}^H$ is the Hermitian (also known as the \emph{adjoint}) of $\mathbfcal{A}$. As a result of this non-normality, the eigenvectors of $\mathbfcal{A}$ do not form an orthonormal set of vectors\footnote{Note that the non-normality of $\mathbfcal{A}$ also implies that its right and left eigenvectors are different. As will be discussed in \textsection \ref{sec: application}, this observation may have large consequences in fluid dynamics, particularly when addressing the problems of optimal linear control and/or estimation of strongly non-parallel flows.}. The consequences of this non-orthogonality of the set of eigenvectors can be visualized on figure \ref{fig: theory -- illustration transient growth} where the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$ is depicted in the phase plane of our toy-model \eqref{eq: theory -- schmid system}. The perturbation $\mathbf{x}(t)$ is first attracted toward the linear manifold associated to the least stable eigenvalue $\lambda_1$, causing in the process the transient growth of its energy by a factor 300. Once it reaches the vicinity of the linearly stable manifold, the perturbation eventually decays exponentially fast along this eigendirection of the fixed point. The next sections are devoted to the introduction of mathematical tools particularly useful to characterize phenomena resulting from this non-normality of $\mathbfcal{A}$, both in the time and frequency domains, when the fixed point considered is stable.
+
+  \begin{figure}[b]
+    \centering
+    \includegraphics[scale=1]{S2_Theory_explanation_transient_growth}
+    \caption{The blue (dashed) line shows the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$. The thick black lines depict the two linear manifolds of the fixed point. The diagonal one corresponds to $\lambda_1 = \nicefrac{1}{100} - \nicefrac{1}{Re}$, while the vertical one is associated to $\lambda_2 = -\nicefrac{2}{Re}$. In the present case, $Re$ is set to 50, thus corresponding to a situation where the fixed point is linearly stable. Note that different scales are used for the horizontal and vertical axes.}
+    \label{fig: theory -- illustration transient growth}
+  \end{figure}
+
     %-----> Optimal perturbation.
-    \subsubsection{Optimal perturbation}
+    \subsubsection{Optimal perturbation analysis}
     \label{subsubsec: theory -- optimal perturbation}
 
-      %--> A Rayleigh quotient problem.
-      \paragraph{Formulation using Rayleigh quotient}
+    Having observed that a random initial condition can experience a relatively large transient growth of its energy over a short period of time even though the fixed point is stable, one may be interested in the worst case scenario, i.e.\ finding which initial condition $\mathbf{x}_0$ is amplified as much as possible before it eventually decays. Searching for such a perturbation is known as \emph{optimal perturbation analysis} and can be addressed by two different methods:
+    \begin{itemize}
+      \item Optimization,
+      \item Singular Value Decomposition (SVD).
+    \end{itemize}
+    Both approaches will be presented. Although it requires the introduction of additional mathematical concepts, the approach relying on optimization will be introduced first in \textsection \ref{paragraph: theory -- optimal perturbation optimization} as it easier to grasp. The approach relying on singular value decomposition of the exponential propagrator $\mathbfcal{M} = \exp \left( \mathbfcal{A} t \right)$ will then be presented in \textsection \ref{paragraph: theory -- optimal perturbation svd}.
 
       % --> Lagrange multipliers.
-      \paragraph{Formulation using Lagrange multipliers}
+      \paragraph{Formulation as an optimization problem}
+      \label{paragraph: theory -- optimal perturbation optimization}
 
-    %-----> Optimal forcing.
-    \subsubsection{Resolvent analysis}
-    \label{subsubsec: theory -- resolvent}
+      The aim of optimal perturbation analysis is to find the unit-norm initial condition $\mathbf{x}_0$ that maximizes $\| \mathbf{x}(T) \|_2^2$, where $T$ is known as the \emph{time horizon}. Note that we here consider only the 2-norm of $\mathbf{x}(T)$ for the sake of simplicity, although one could formally optimize different norms, see \cite{??} for examples from fluid dynamics. For a given time horizon $T$, such a problem can be formulated as the following constrained maximization problem
+      \begin{equation}
+          \begin{aligned}
+            \maximize \limits_{\mathbf{x}_0} & \mathcal{J} \left( \mathbf{x}_0 \right) \\
+            \subjecto & \dot{\mathbf{x}} = \mathbfcal{A}\mathbf{x} \\
+            ~ & \| \mathbf{x}_0 \|_2^2 = 1,
+          \end{aligned}
+          \label{eq: theory -- constrained maximization}
+      \end{equation}
+      where $\mathcal{J}(\mathbf{x}_{0}) = \| \mathbf{x}(T) \|_2^2$ is known as the \emph{objective function}. It must be emphasized that problem \eqref{eq: theory -- constrained maximization} is not formulated as a convex optimization problem\footnote{
+      Formally, a convex optimization problem reads
+      \begin{equation}
+        \begin{aligned}
+          \minimize \limits_{\mathbf{x}} & \mathcal{J} \left( \mathbf{x} \right) \\
+          \subjecto & g_i \left( \mathbf{x} \right) \leq 0, \ i = 1, \cdots, m \\
+          ~ & h_i \left( \mathbf{x} \right) = 0, \ i = 1, \cdots, p,
+        \end{aligned}
+        \notag
+      \end{equation}
+      where the objective function $\mathcal{J} \left( \mathbf{x} \right)$ and the inequality constraints functions $g_i \left( \mathbf{x} \right)$ are convex. The conditions on the equality constraints functions $h_i \left( \mathbf{x} \right)$ are more restrictive as they need to be affine functions, i.e.\ of the form $h_i \left( \mathbf{x} \right) = \mathbf{a}_i^T \mathbf{x} + b_i$. See the book by Boyd \& Vandenberghe \cite{book:boyd:2004} for extensive details about convex optimization.}.
+      As such, it may exhibit local maxima. Nonetheless, this constrained maximization problem can be recast into the following unconstrained maximization problem
+      \begin{equation}
+        \maximize \limits_{\mathbf{x}_0, \mathbf{v}, \mu} \mathcal{L} \left( \mathbf{x}_0, \mathbf{v}, \mu \right),
+        \label{eq: theory -- unconstrained maximization}
+      \end{equation}
+      where
+      \begin{equation}
+        \mathcal{L} \left( \mathbf{x}_0, \mathbf{v}, \mu \right) = \mathcal{J}\left( \mathbf{x}_0 \right) + \mathbf{v}^T \left( \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} \right) + \mu \| \mathbf{x}_0 \|_2^2
+        \label{eq: theory -- augmented Lagrangian}
+      \end{equation}
+      is known as the \emph{augmented Lagrangian} function. The additional optimization variables $\mathbf{v}$ and $\mu$ appearing in the definition of the augmented Lagrangian $\mathcal{L}$ are called \emph{Lagrange multipliers}.
 
-        %--> A Rayleigh quotient problem.
-        \paragraph{Formulation using Rayleigh quotient}
-
-        % --> Lagrange multipliers.
-        \paragraph{Formulation using Lagrange multipliers}
-
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %%%%%                                             %%%%%
-  %%%%%     KRYLOV METHODS FOR LINEAR EQUATIONS     %%%%%
-  %%%%%                                             %%%%%
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  \subsection{Krylov methods for for solving linear systems}
-  \label{subsubsec: theory -- krylov methods}
+      %--> A Rayleigh quotient problem.
+      \paragraph{Formulation using SVD}
+      \label{paragraph: theory -- optimal perturbation svd}

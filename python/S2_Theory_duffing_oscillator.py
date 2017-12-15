@@ -133,7 +133,7 @@ if __name__ == '__main__':
     fig = plt.figure(figsize=(fig_width/3, fig_width/3))
     ax = fig.gca()
 
-    ax.streamplot(x, y, xdot, ydot, color='lightgrey', density=0.5)
+    ax.streamplot(x, y, xdot, ydot, color='lightgrey', density=0.5, linewidth=0.5)
 
     t = np.linspace(0, 35, 1000)
 
@@ -143,15 +143,15 @@ if __name__ == '__main__':
 
     x0 = 1e-8*eigenvectors[:, 1]
     x = odeint(duffing_oscillator, x0, np.flipud(t))
-    ax.plot(x[:, 0], x[:, 1], color='royalblue', lw=3)
+    ax.plot(x[:, 0], x[:, 1], color='royalblue', lw=2)
     x = odeint(duffing_oscillator, -x0, np.flipud(t))
-    ax.plot(x[:, 0], x[:, 1], color='royalblue', lw=3)
+    ax.plot(x[:, 0], x[:, 1], color='royalblue', lw=2)
 
     x0 = 1e-8*eigenvectors[:, 0]
     x = odeint(duffing_oscillator, x0, t)
-    ax.plot(x[:, 0], x[:, 1], color='orange', lw=3)
+    ax.plot(x[:, 0], x[:, 1], color='orange', lw=2)
     x = odeint(duffing_oscillator, -x0, t)
-    ax.plot(x[:, 0], x[:, 1], color='orange', lw=3)
+    ax.plot(x[:, 0], x[:, 1], color='orange', lw=2)
 
     ax.plot(xf, yf, 'ro')
 
