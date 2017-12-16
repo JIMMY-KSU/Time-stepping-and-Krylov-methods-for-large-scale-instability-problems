@@ -55,7 +55,7 @@ if __name__ == '__main__':
     x0 = np.array([1., 1.])
     x0 /= norm(x0)
 
-    t = np.linspace(0, 1000, 1000)
+    t = np.linspace(0, 400, 1000)
     x1 = odeint(dynamical_system, x0, t, args=(A,))
 
     # --> Compute phase plane.
@@ -91,4 +91,83 @@ if __name__ == '__main__':
     ax.legend(loc=0)
     ax.locator_params(axis='y', nbins=4)
     plt.savefig('../imgs/S2_Theory_explanation_transient_growth.pdf', bbox_inches='tight', dpi=300)
+
+
+    ###################################
+
+
+
+    def optimal_gain(A, T):
+        from scipy.linalg import expm, svdvals
+
+        G = np.zeros_like(T)
+
+        for i, t in enumerate(T):
+            G[i] = svdvals(expm(A*t))[0]**2
+
+        return G
+
+    t = np.linspace(0, 400, 40001)
+    G = optimal_gain(A, t)
+
+    fig = plt.figure(figsize=(fig_width/3, fig_width/3))
+    ax = fig.gca()
+
+    ax.semilogy(t, G, color='royalblue')
+
+    ax.set_ylim(0.8, 1000)
+
+    ax.set_xlabel(r'$T$')
+    ax.set_ylabel(r'$\mathcal{G}(T)$')
+
+    plt.savefig('../imgs/S2_Theory_illustration_optimal_perturbation.pdf', bbox_inches='tight', dpi=300)
+
+
+    # --> Optimal initial condition.
+    from scipy.linalg import svd, expm
+    T = t[G.argmax()]
+    _, s, vh = svd(expm(A*T))
+
+    x0 = -(vh.T)[:, 0]
+
+    t = np.linspace(0, 400, 1000)
+    x2 = odeint(dynamical_system, x0, t, args=(A,))
+
+    # --> Compute phase plane.
+    y = np.linspace(-10, 30, 40)
+    x = np.linspace(-0.2, 1.2, 20)
+    x, y = np.meshgrid(x, y)
+
+    xdot, ydot = np.zeros_like(x), np.zeros_like(y)
+    xdot[:], ydot[:] = dynamical_system([x[:], y[:]], None, A)
+
+    fig = plt.figure(figsize=(fig_width, fig_width/3))
+    ax = fig.gca()
+
+    ax.annotate("", xy=(10*u[0, 1], 10*u[1, 1]), xytext=(0, 0), arrowprops=dict(arrowstyle="-", lw=2))
+    ax.annotate("", xy=(-10*u[0, 1], -10*u[1, 1]), xytext=(0, 0), arrowprops=dict(arrowstyle="-", lw=2))
+
+    ax.annotate("", xy=(10*u[0, 0], 10*u[1, 0]), xytext=(0, 0), arrowprops=dict(arrowstyle="-", lw=2))
+    ax.annotate("", xy=(-10*u[0, 0], -10*u[1, 0]), xytext=(0, 0), arrowprops=dict(arrowstyle="-", lw=2))
+
+
+    ax.streamplot(x, y, xdot, ydot, color='gray', density=0.5, linewidth=0.5)
+    ax.plot(x2[:, 0], x2[:, 1], color='royalblue', lw=2, ls='--')
+    ax.plot(x1[:, 0], x1[:, 1], color='orange', lw=2, ls='-.')
+
+    ax.plot(x1[0, 0], x1[0, 1], 's', ms=6, color='orange', label=r'Random unit-norm initial condition')
+    ax.plot(x2[0, 0], x2[0, 1], '>', ms=6, color='royalblue', label=r'Opt. initial condition')
+    ax.plot(0., 0., 'o', ms=6, color='red', zorder=8, label=r'Fixed point')
+
+    ax.set_xlim(-0.2, 1.2)
+    ax.set_ylim(-10, 30)
+
+    ax.set_xlabel(r'$x_1$')
+    ax.set_ylabel(r'$x_2$')
+
+    ax.legend(loc='upper center', ncol=3, bbox_to_anchor=(0.5, 1.25))
+    ax.locator_params(axis='y', nbins=4)
+    plt.savefig('../imgs/S2_Theory_illustration_optimal_perturbation_bis.pdf', bbox_inches='tight', dpi=300)
+
+
     plt.show()

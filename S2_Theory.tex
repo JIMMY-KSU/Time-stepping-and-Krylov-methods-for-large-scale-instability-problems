@@ -14,6 +14,7 @@
   where $\mathbf{X}$ is the $n \times 1$ \emph{state vector} of the system and $t$ is a continuous variable denoting time. Alternatively, accounting also for temporal discretization gives rise to a discrete-time dynamical system
   \begin{equation}
     X_{j, k+1} = \Phi_j \left( \left\{ X_{i, k};\ i = 1, \cdots, n \right\}, k \right)
+    \notag
   \end{equation}
   or formally
   \begin{equation}
@@ -27,7 +28,7 @@
   \end{equation}
   where $\Updelta t$ is the time-step and the explicit dependences on $t$ and $k$ have been dropped for the sake of simplicity.
 
-  In the rest of this section, the reader will be introduced to the concepts of fixed points and linear stability, two concepts required to characterize a number of properties of the system investigated. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two approaches that have become increasingly popular in fluid dynamics over the past decades. Note that the concept of \emph{nonlinear optimal perturbation}, which as raised a lot attention lately, is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{nonlinear_optimal:kerswell:2014} and references therein.
+  In the rest of this section, the reader will be introduced to the concepts of fixed points and linear stability, two concepts required to characterize a number of properties of the system investigated. Particular attention will be paid to \emph{modal} and \emph{non-modal stability}, two approaches that have become increasingly popular in fluid dynamics over the past decades. Note that the concept of \emph{nonlinear optimal perturbation}, which has raised a lot attention lately, is beyond the scope of the present contribution. For interested readers, please refer to the recent work by \cite{nonlinear_optimal:kerswell:2014} and references therein.
 
   Finally, while we will mostly use the continuous-time representation \eqref{eq: theory -- continuous-time dynamical system} when introducing the reader to the theoretical concepts exposed in this section, using the discrete-time representation \eqref{eq: theory -- discrete-time dynamical system} will prove more useful when discussing and implementing the different algorithms presented in \textsection \ref{sec: numerics}.
 
@@ -117,7 +118,7 @@
   \end{equation}
   The asymptotic fate of an initial perturbation $\mathbf{x}_0$ is thus entirely dictated by the real part of the leading eigenvalue $\lambda_1$:
   \begin{itemize}
-    \item if $\Re \left( \lambda_1 \right) > 0$, a random initial perturbation $\mathbf{x}_0$ will eventually grow exponentially fast. Hence, the fixed point $\mathbf{X}^*$ is deemed \emph{linearly unstable}.
+    \item if $\Re \left( \lambda_1 \right) > 0$, a random initial perturbation $\mathbf{x}_0$ will eventually grow exponentially rapidly. Hence, the fixed point $\mathbf{X}^*$ is deemed \emph{linearly unstable}.
 
     \item If $\Re \left( \lambda_1 \right) < 0$, the initial perturbation $\mathbf{x}_0$ will eventually decay exponentially rapidly. The fixed point $\mathbf{X}^*$ is thus \emph{linearly stable}.
   \end{itemize}
@@ -166,12 +167,12 @@
   \subsection{Non-modal stability analysis}
   \label{subsec: theory -- non-modal stability}
 
-  Looking at figure \ref{fig: theory -- illustration modal stability}, it can be seen that, although the system is linearly stable for $Re=50$, the perturbation $\mathbf{x}$ can experience a transient growth of its energy for a short period of time, roughly given by $0 < t <100$ in the present case, before its eventual exponential decay. This behavior is related to the \emph{non-normality} of $\mathbfcal{A}$, i.e.\
+  Looking once more at figure \ref{fig: theory -- illustration modal stability}, it can be seen that, although the system is linearly stable for $Re=50$, the perturbation $\mathbf{x}$ can experience a transient growth of its energy for a short period of time, roughly given by $0 < t <100$ in the present case, before its eventual exponential decay. This behavior is related to the \emph{non-normality} of $\mathbfcal{A}$, i.e.\
   \begin{equation}
     \mathbfcal{A}^H \mathbfcal{A} \neq \mathbfcal{A} \mathbfcal{A}^H,
     \label{eq: theory -- non-normality equation}
   \end{equation}
-  where $\mathbfcal{A}^H$ is the Hermitian (also known as the \emph{adjoint}) of $\mathbfcal{A}$. As a result of this non-normality, the eigenvectors of $\mathbfcal{A}$ do not form an orthonormal set of vectors\footnote{Note that the non-normality of $\mathbfcal{A}$ also implies that its right and left eigenvectors are different. As will be discussed in \textsection \ref{sec: application}, this observation may have large consequences in fluid dynamics, particularly when addressing the problems of optimal linear control and/or estimation of strongly non-parallel flows.}. The consequences of this non-orthogonality of the set of eigenvectors can be visualized on figure \ref{fig: theory -- illustration transient growth} where the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$ is depicted in the phase plane of our toy-model \eqref{eq: theory -- schmid system}. The perturbation $\mathbf{x}(t)$ is first attracted toward the linear manifold associated to the least stable eigenvalue $\lambda_1$, causing in the process the transient growth of its energy by a factor 300. Once it reaches the vicinity of the linearly stable manifold, the perturbation eventually decays exponentially fast along this eigendirection of the fixed point. The next sections are devoted to the introduction of mathematical tools particularly useful to characterize phenomena resulting from this non-normality of $\mathbfcal{A}$, both in the time and frequency domains, when the fixed point considered is stable.
+  where $\mathbfcal{A}^H$ is the Hermitian (also known as the \emph{adjoint}) of $\mathbfcal{A}$. As a result of this non-normality, the eigenvectors of $\mathbfcal{A}$ do not form an orthonormal set of vectors\footnote{Note that the non-normality of $\mathbfcal{A}$ also implies that its right and left eigenvectors are different. As will be discussed in \textsection \ref{sec: application}, this observation may have large consequences in fluid dynamics, particularly when addressing the problems of optimal linear control and/or estimation of strongly non-parallel flows.}. The consequences of this non-orthogonality of the set of eigenvectors can be visualized on figure \ref{fig: theory -- illustration transient growth} where the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$ is depicted in the phase plane of our toy-model \eqref{eq: theory -- schmid system}. The perturbation $\mathbf{x}(t)$ is first attracted toward the linear manifold associated to the least stable eigenvalue $\lambda_1$, causing in the process the transient growth of its energy by a factor 300. Once it reaches the vicinity of the linearly stable manifold, the perturbation eventually decays exponentially rapidly along this eigendirection of the fixed point. The next sections are devoted to the introduction of mathematical tools particularly useful to characterize phenomena resulting from this non-normality of $\mathbfcal{A}$, both in the time and frequency domains, when the fixed point considered is stable.
 
   \begin{figure}[b]
     \centering
@@ -195,16 +196,16 @@
       \paragraph{Formulation as an optimization problem}
       \label{paragraph: theory -- optimal perturbation optimization}
 
-      The aim of optimal perturbation analysis is to find the unit-norm initial condition $\mathbf{x}_0$ that maximizes $\| \mathbf{x}(T) \|_2^2$, where $T$ is known as the \emph{time horizon}. Note that we here consider only the 2-norm of $\mathbf{x}(T)$ for the sake of simplicity, although one could formally optimize different norms, see \cite{??} for examples from fluid dynamics. For a given time horizon $T$, such a problem can be formulated as the following constrained maximization problem
+      The aim of optimal perturbation analysis is to find the unit-norm initial condition $\mathbf{x}_0$ that maximizes $\| \mathbf{x}(T) \|_2^2$, where $T$ is known as the \emph{target time}. Note that we here consider only the 2-norm of $\mathbf{x}(T)$ for the sake of simplicity, although one could formally optimize different norms, see \cite{??} for examples from fluid dynamics. For a given target time $T$, such a problem can be formulated as the following constrained maximization problem
       \begin{equation}
           \begin{aligned}
-            \maximize \limits_{\mathbf{x}_0} & \mathcal{J} \left( \mathbf{x}_0 \right) \\
-            \subjecto & \dot{\mathbf{x}} = \mathbfcal{A}\mathbf{x} \\
-            ~ & \| \mathbf{x}_0 \|_2^2 = 1,
+            \maximize \limits_{\mathbf{x}_0} & \mathcal{J} \left( \mathbf{x}_0 \right) = \| \mathbf{x}(T) \|_2^2\\
+            \subjecto & \int_0^T \left( \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} \right) \ \mathrm{d}t = 0 \\
+            ~ & \| \mathbf{x}_0 \|_2^2 - 1 = 0,
           \end{aligned}
           \label{eq: theory -- constrained maximization}
       \end{equation}
-      where $\mathcal{J}(\mathbf{x}_{0}) = \| \mathbf{x}(T) \|_2^2$ is known as the \emph{objective function}. It must be emphasized that problem \eqref{eq: theory -- constrained maximization} is not formulated as a convex optimization problem\footnote{
+      where $\mathcal{J}(\mathbf{x}_{0})$ is known as the \emph{objective function}. It must be emphasized that problem \eqref{eq: theory -- constrained maximization} is not formulated as a convex optimization problem\footnote{
       Formally, a convex optimization problem reads
       \begin{equation}
         \begin{aligned}
@@ -237,11 +238,104 @@
       \end{equation}
       and
       \begin{equation}
-        \nabla_{\mathbf{x}} \mathcal{J} - \mathbf{v}(T) = 2\mu \mathbf{x}(0) - \mathbf{v}(0) = 0.
+        \begin{aligned}
+          \nabla_{\mathbf{x}} \mathcal{J} - \mathbf{v}(T) & = 0 \\
+          2\mu \mathbf{x}_0 - \mathbf{v}(0) & = 0.
+        \end{aligned}
         \label{eq: theory -- compatibility conditions}
       \end{equation}
-      Note that Eq. \eqref{eq: theory -- adjoint equations} is known as the adjoint system of our original linear dynamical system. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general iteratively by gradient-based algorithms such as gradient descent or the rotation-update gradient algorithm that will be described in \textsection \ref{sec: numerics}. For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
+      Note that Eq. \eqref{eq: theory -- adjoint equations} is known as the adjoint system\footnote{
+      Given an appropriate norm, here the 2-norm, the adjoint operator $\mathbfcal{A}^H$ is defined such that
+      \begin{equation}
+        \langle \mathbf{v} \vert \mathbfcal{A} \mathbf{x} \rangle = \langle \mathbfcal{A}^H \mathbf{v} \vert \mathbf{x} \rangle,
+        \notag
+      \end{equation}
+      where $\langle \mathbf{a} \vert \mathbf{b} \rangle$ is the standard Euclidean inner product in the present case.
+      }
+      of our original linear dynamical system, while Eq. \eqref{eq: theory -- compatibility conditions} are called compatibility conditions. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general done iteratively by gradient-based algorithms such as gradient descent or the rotation-update gradient algorithm (see \textsection \ref{sec: numerics}). For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
 
       %--> A Rayleigh quotient problem.
       \paragraph{Formulation using SVD}
       \label{paragraph: theory -- optimal perturbation svd}
+
+      As stated previously, formulating the optimal perturbation analysis as a constrained maximization results in a non-convex optimization problem \eqref{eq: theory -- constrained maximization}. Consequently, although a solution to \eqref{eq: theory -- constrained maximization} can easily be obtained by means of gradient-based algorithms, one cannot rule out the possibility that this solution is not the optimal one but only a local maxima. In this section, we will show that recasting problem \eqref{eq: theory -- constrained maximization} in the framework of linear algebra however allows us to obtain easily this global optimal.
+
+      Let us first redefine our optimization problem as
+      \begin{equation}
+        \maximize_{\mathbf{x}_0} \displaystyle \frac{\| \mathbf{x}(T) \|_2^2}{\| \mathbf{x}_0 \|_2^2}
+        \label{eq: theory -- energy gain}
+      \end{equation}
+      so that rather than maximizing $\| \mathbf{x}(T) \|_2^2$ under the constraint that $\| \mathbf{x}_0 \|_2^2 = 1$, we now directly aim to maximize the energy gain $\mathcal{G}(T) = \nicefrac{\| \mathbf{x}(T) \|_2^2}{\| \mathbf{x}_0 \|_2^2}$. Moreover, recalling from \eqref{eq: theory -- linear stability solution} that
+      \begin{equation}
+        \mathbf{x}(T) = \exp \left( \mathbfcal{A} T \right) \mathbf{x}_0,
+        \notag
+      \end{equation}
+      our energy gain maximization problem can finally be written as
+      \begin{equation}
+        \begin{aligned}
+          \mathcal{G}(T) & = \max_{\mathbf{x}_0} \displaystyle \frac{\| \exp \left( \mathbfcal{A} t \right) \mathbf{x}_0 \|_2^2}{\| \mathbf{x}_0 \|_2^2} \\
+          & = \| \exp \left( \mathbfcal{A} T \right) \|_2^2
+        \end{aligned}
+      \end{equation}
+      where $\| \exp \left( \mathbfcal{A} T \right) \|_2$ is a vector-induced matrix norm taking care of the optimization over all possible initial conditions $\mathbf{x}_0$. Introducing singular value decomposition (SVD), i.e.\
+      \begin{equation}
+        \mathbfcal{M} = \mathbfcal{U} \boldsymbol{\Sigma} \mathbfcal{V}^H,
+        \notag
+      \end{equation}
+      it is relatively easy to demonstrate that the optimal energy gain $\mathcal{G}(T)$ is given by
+      \begin{equation}
+        \mathcal{G}(T) = \sigma_1^2,
+        \label{theory -- optimal energy gain }
+      \end{equation}
+      where $\sigma_1$ is the dominant singular value of the exponential propagator $\mathbfcal{M} = \exp \left( \mathbfcal{A} T \right)$. The optimal initial condition $\mathbf{x}_0$ is then given by the principal right singular vector (i.e.\ $\mathbf{x}_0 = \mathbf{v}_1$), while the associated response is given by $\mathbf{x}(T) = \sigma_1 \mathbf{u}_1$, where $\mathbf{u}_1$ is the principal left singular vector.
+
+      % --> Illustration.
+      \paragraph{Illustration}
+
+      {\color{red} Je pensais illustrer cette section en utilisant l'opérateur de Orr-Sommerfeld-Squire, sans pour autant rentrer dans les d\'etails des \'equations ni quoi que ce soit. Juste faire un cas (les streaks optimaux) et montrer la courbe de gain optimal, la perturbation initiale et la r\'eponse.}
+
+    \subsubsection{Resolvent analysis}
+    \label{subsubsec: theory -- resolvent perturbation}
+
+    The optimal perturbation analysis (see \textsection \ref{subsubsec: theory -- optimal perturbation}) aims at finding the initial condition $\mathbf{x}_0$ that maximizes the transient amplification of energy of the response $\mathbf{x}(T) = \exp \left( \mathbfcal{A} T \right) \mathbf{x}_0$ at the target time $t=T$. It is thus an initial-value problem that can be investigated in the time domain. Rather than considering the response of the system to different initial conditions, one may instead wonder how the system reacts to external noise. For that purpose, let us now consider a forced linear dynamical system
+    \begin{equation}
+      \dot{\mathbf{x}} = \mathbfcal{A} \mathbf{x} + \mathbf{f}
+      \label{eq: theory -- forced linear system}
+    \end{equation}
+    where the forcing $\mathbf{f}$ now models the system's input such as the external noise. As before, we moreover assume that all of the eigenvalues of $\mathbfcal{A}$ lie within the stable half of the complex plane. As for the optimal perturbation analysis, one may now consider a worst-case scenario, i.e.\ what is the forcing $\mathbf{f}$ that maximizes the asymptotic response of the system? Because we consider a linear dynamical system, this question can naturally be addressed in the frequency domain.
+
+    In the most general case, the response of the system to the forcing $\mathbf{f}(t)$ is given by
+    \begin{equation}
+      \mathbf{x}(t) = \int_0^t \exp \left( \mathbfcal{A} (t-\tau) \right) \mathbf{f}(\tau) \ \mathrm{d}\tau
+      \label{eq: theory -- convolution integral}
+    \end{equation}
+    which is a convolution integral. Note that, in the above expression, we assumed a zero initial condition, i.e.\ $\mathbf{x}_0 = 0$. Such a convolution integral is also known as a memory integral and highlights that the current state $\mathbf{x}(t)$ of the system depends on the entire history of the forcing $\mathbf{f}$. Because we consider linear stable systems, the influence of the forcing on the current state decays exponentially according to the least stable eigenvalue. Let us assume furthermore a harmonic external forcing
+    \begin{equation}
+      \mathbf{f}(t) = \Re \left( \hat{\mathbf{f}} e^{i \omega t} \right)
+    \end{equation}
+    where $\omega \in \mathbb{R}$ is the forcing circular frequency. The convolution integral can now be easily computed in the frequency domain. Given our assumptions, the asymptotic response of the system at the frequency $\omega$ is given by
+    \begin{equation}
+      \hat{\mathbf{x}} = \left( i \omega \mathbfcal{I} - \mathbfcal{A} \right)^{-1} \hat{\mathbf{f}}.
+      \label{eq: theory -- transfer function}
+    \end{equation}
+    The operator $\mathbfcal{R}(\omega) = \left( i \omega \mathbfcal{I} - \mathbfcal{A} \right)^{-1}$ appearing in Eq. \eqref{eq: theory -- transfer function} is known as the \emph{Resolvent operator} and is related to the exponential propagator $\mathbfcal{M}(t) = \exp \left( \mathbfcal{A} t \right)$ via Laplace transform. This operator, acting in the frequency domain, maps the input harmonic forcing $\hat{\mathbf{f}}(\omega)$ to the output harmonic response $\hat{\mathbf{x}}(\omega)$.
+
+    Finding the forcing frequency $\omega$ that maximizes the asymptotic response $\mathbf{x}$ of the system can now be formalized as
+    \begin{equation}
+      \begin{aligned}
+        \mathcal{R}(\omega) & = \max_{\hat{\mathbf{f}}} \displaystyle \frac{\| \left( i \omega \mathbfcal{I} - \mathbfcal{A} \right)^{-1} \hat{\mathbf{f}} \|_2^2}{\| \hat{\mathbf{f}} \|_2^2} \\
+        & = \| \mathbfcal{R}(\omega) \|_2^2.
+      \end{aligned}
+      \label{eq: theory -- resolvent norm}
+    \end{equation}
+    Going from the time domain to the frequency domain, the norm of the exponential propagator is replaced with that of the resolvent in order quantify the energy amplification between the input forcing and the output response. As before, the optimal resolvent gain at the frequency $\omega$ is given by
+    \begin{equation}
+      \mathcal{R}(\omega) = \sigma_1^2,
+      \notag
+    \end{equation}
+    where $\sigma_1$ is the leading singular value of $\mathbfcal{R}(\omega)$. The associated optimal forcing $\hat{\mathbf{f}}$ and response $\hat{\mathbf{x}}$ are then given by the corresponding right and left singular vectors, respectively.
+
+    % --> Illustration.
+    \paragraph{Illustration}
+
+    {\color{red} Pareil que pour la perturbation optimale.}
