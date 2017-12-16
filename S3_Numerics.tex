@@ -1,6 +1,36 @@
 \section{Numerical methods}
 \label{sec: numerics}
 
+In this section, different techniques will be presented to solve modal and non-modal stability problems for very large-scale dynamical systems. Such very large-scale systems typically arise from the spatial discretization of partial differential equations, e.g.\ the Navier-Stokes equations in fluid dynamics. Throughout this section, the two-dimensional shear-driven cavity flow at various Reynolds numbers will serve as an example. The same configuration as \cite{??} is considered. The dynamics of the flow are governed by
+\begin{equation}
+  \begin{aligned}
+    \displaystyle \frac{\partial \mathbf{U}}{\partial t} + \left( \mathbf{U} \cdot \nabla \right) \mathbf{U} & = - \nabla P + \frac{1}{Re} \nabla^2 \mathbf{U} \\
+    \nabla \cdot \mathbf{U} & = 0,
+  \end{aligned}
+  \label{eq: numerics -- Navier-Stokes equations}
+\end{equation}
+where $\mathbf{U}$ is the velocity field and $P$ is the pressure field. Figure \ref{fig: numerics -- shear-driven cavity flow} depicts a typical vorticity snapshot obtained from direct numerical simulation at a supercritical Reynolds number.
+
+Given a fixed point $\mathbf{U}_b$ of the Navier-Stokes equations \eqref{eq: numerics -- Navier-Stokes equations}, the dynamics of an infinitesimal perturbation $\mathbf{u}$ evolving on top of it are governed by
+\begin{equation}
+  \begin{aligned}
+    \displaystyle \frac{\partial \mathbf{u}}{\partial t} + \left( \mathbf{u} \cdot \nabla \right) \mathbf{U}_b  + \left( \mathbf{U}_b \cdot \nabla \right) \mathbf{u} & = - \nabla p + \frac{1}{Re} \nabla^2 \mathbf{u} \\
+    \nabla \cdot \mathbf{u} & = 0.
+  \end{aligned}
+  \label{eq: numerics -- linearized Navier-Stokes equations}
+\end{equation}
+Once projected onto a divergence-free vector space, Eq. \eqref{eq: numerics -- linearized Navier-Stokes equations} can be formally written as
+\begin{equation}
+  \dot{\mathbf{u}} = \mathbfcal{A}\mathbf{u},
+  \label{eq: numerics -- linearized Navier-Stokes equations bis}
+\end{equation}
+where $\mathbfcal{A}$ is the linearized Navier-Stokes operator. After being discretized in space, $\mathbfcal{A}$ is a $n \times n$ matrix. For our example, the computational domain is discretized using ??? grid points, resulting in a total of $2 \times ??$ degrees of freedom. From a practical point of view, explicitly assembling the resulting matrix $\mathbfcal{A}$ would require approximately ?? Gb. Investigating the stability properties of this two-dimensional flow would thus not be possible on a simple laptop at the moment despite the simplicity of the case considered. It has to be noted however that, given an initial condition $\mathbf{u}_0$, the analytical solution to Eq. \eqref{eq: numerics -- linearized Navier-Stokes equations bis} reads
+\begin{equation}
+  \mathbf{u}(T) = \exp \left( \mathbfcal{A}T \right) \mathbf{u}_0,
+  \notag
+\end{equation}
+where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential propagator introduced previously. Although assembling explicitly this matrix $\mathbfcal{M}$ is even harder than assembling $\mathbfcal{A}$, its application onto the vector $\mathbf{u}_0$ can easily be computed using a classical time-stepping code. Such a \emph{time-stepper} approach has been popularized by \cite{??}. In the rest of this section, the different algorithms proposed for fixed point computation, linear stability and non-modal stability analyses will heavily rely on this time-stepper strategy. They require only minor modifications of an existing time-stepping code to be put into use.
+
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%                                             %%%%%
   %%%%%     KRYLOV METHODS FOR LINEAR EQUATIONS     %%%%%
@@ -38,7 +68,7 @@
   %%%%%                                  %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \subsection{Modal stability analysis}
+  \subsection{Linear stability and eigenvalue computation}
 
     %-----> Power Iteration.
     \subsubsection{Power Iteration method}
@@ -58,7 +88,7 @@
   %%%%%                                      %%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  \subsection{Non-modal stability analysis}
+  \subsection{Non-modal stability and singular value decomposition}
 
     %-----> Optimal perturbation.
     \subsubsection{Optimal perturbation analysis}

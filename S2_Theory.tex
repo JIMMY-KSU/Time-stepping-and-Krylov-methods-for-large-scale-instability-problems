@@ -252,7 +252,7 @@
       \end{equation}
       where $\langle \mathbf{a} \vert \mathbf{b} \rangle$ is the standard Euclidean inner product in the present case.
       }
-      of our original linear dynamical system, while Eq. \eqref{eq: theory -- compatibility conditions} are called compatibility conditions. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general done iteratively by gradient-based algorithms such as gradient descent or the rotation-update gradient algorithm (see \textsection \ref{sec: numerics}). For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
+      of our original linear dynamical system, while Eq. \eqref{eq: theory -- compatibility conditions} are called compatibility conditions. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general done iteratively by gradient-based algorithms such as gradient ascent or the rotation-update gradient algorithm (see \textsection \ref{sec: numerics}). For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
 
       %--> A Rayleigh quotient problem.
       \paragraph{Formulation using SVD}
@@ -292,7 +292,16 @@
       % --> Illustration.
       \paragraph{Illustration}
 
-      {\color{red} Je pensais illustrer cette section en utilisant l'opérateur de Orr-Sommerfeld-Squire, sans pour autant rentrer dans les d\'etails des \'equations ni quoi que ce soit. Juste faire un cas (les streaks optimaux) et montrer la courbe de gain optimal, la perturbation initiale et la r\'eponse.}
+      As to illustrate linear optimal perturbations, let us consider the incompressible flow of a Newtonian fluid induced by two flat plates moving in-plane in opposite directions as sketched on figure \ref{fig: theory -- optimal perturbation illustration}(a). The resulting flow, known as \emph{plane Couette flow}, is given by
+      $$U(y) = y.$$
+      Note that it is a linearly stable fixed point of the Navier-Stokes equations no matter the Reynolds number considered. Despite its linear stability, subcritical transition to turbulence can occur for Reynolds numbers as low as $Re=??$.
+
+      Without getting to deep into the mathematical and physical details of such subcritical transition, part of the explanation can be given by linear optimal perturbation analysis. The dynamics of an infinitesimal perturbation $\mathbf{x} = \begin{bmatrix} \mathbf{v} & \mathbf{\eta} \end{bmatrix}^T$, characterized by a certain wavenumber $\mathbf{k} = \alpha \mathbf{e}_x + \beta \mathbf{e}_z$, evolving in the vicinity of this fixed point are governed by
+      \begin{equation}
+        \displaystyle \frac{\mathrm{d}}{\mathrm{d}t} \begin{bmatrix} \mathbf{v} \\ \mathbf{\eta} \end{bmatrix} = \begin{bmatrix} \mathbfcal{A}_{OS} & 0 \\ \mathbfcal{C} & \mathbfcal{A}_{S} \end{bmatrix} \begin{bmatrix} \mathbf{v} \\ \mathbf{\eta} \end{bmatrix}
+        \label{eq: theory -- orr-sommerfeld-squire equations}
+      \end{equation}
+      where $\mathbf{v}$ is the wall-normal velocity of the perturbation and $\mathbf{\eta}$ its wall-normal vorticity, $\mathbfcal{A}_{OS}$ is the Orr-Sommerfeld operator, while $\mathbfcal{A}_{S}$ is the Squire one. The operator $\mathbfcal{C}$ describes the existing coupling between the wall-normal velocity $\mathbf{v}$ and the wall-normal vorticity $\mathbf{\eta}$. For certain pairs of wavenumbers, this Orr-Sommerfeld-Squire operator is highly non-normal and perturbations can exhibit very large transient growth. This is illustrated on figure \ref{fig: theory -- optimal perturbation illustration}(b) where the evolution of the optimal gain $\mathcal{G}(T)$ as a function of the target time $T$ is depicted for different pairs of wavenumbers $(\alpha, \beta)$. The maximum amplification achievable over all target times $T$ and wavenumbers pairs $(\alpha, \beta)$ is $\mathcal{G}_{\mathrm{opt}} = ??$. The initial perturbation $\mathbf{x}_0$ corresponding to this optimal energy gain is depicted on figure \ref{fig: theory -- optimal perturbation illustration}(c). It corresponds to streamwise-oriented vortices that eventually give rise to streamwise velocity streaks due to the lift-up effect \cite{}, see figure \ref{fig: theory -- optimal perturbation illustration}(d). While this perturbation eventually decays exponentially rapidly in a purely linear framework, it has been shown that, for a sufficiently large initial amplitude, it may eventually trigger transition to turbulence when used as initial condition in a non-linear direct numerical simulation of the Navier-Stokes equations \cite{??}. For more details about subcritical transition and extension of optimal perturbation analysis to non-linear operators, interested readers are referred to \cite{??}.
 
     \subsubsection{Resolvent analysis}
     \label{subsubsec: theory -- resolvent perturbation}
@@ -338,4 +347,10 @@
     % --> Illustration.
     \paragraph{Illustration}
 
-    {\color{red} Pareil que pour la perturbation optimale.}
+    Once more, let us illustrate the use of the resolvent analysis on an example from fluid dynamics. For that purpose, we will consider an axisymmetric jet whose radial velocity profile is given by
+    \begin{equation}
+      U(r) = ??.
+      \label{eq: theory -- resolvent analysis - jet profile}
+    \end{equation}
+
+    {\color{red} I need to run this whole analysis to write down this part.}
