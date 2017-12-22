@@ -13,17 +13,17 @@
   \end{equation}
   where $\mathbf{X}$ is the $n \times 1$ \emph{state vector} of the system and $t$ is a continuous variable denoting time. Alternatively, accounting also for temporal discretization gives rise to a discrete-time dynamical system
   \begin{equation}
-    X_{j, k+1} = \Phi_j \left( \left\{ X_{i, k};\ i = 1, \cdots, n \right\}, k \right)
+    X_{j, k+1} = \mathcal{G}_j \left( \left\{ X_{i, k};\ i = 1, \cdots, n \right\}, k \right)
     \notag
   \end{equation}
   or formally
   \begin{equation}
-    \mathbf{X}_{k+1} = \bm{\Phi}(\mathbf{X}_k, k)
+    \mathbf{X}_{k+1} = \mathbfcal{G} \left( \mathbf{X}_k, k \right)
     \label{eq: theory -- discrete-time dynamical system}
   \end{equation}
-  where the index $k$ now denotes the discrete time variable. If one uses first-order Euler extrapolation for the time discretization, the relation between $\mathbfcal{F}$ and $\bm{\Phi}$ is given by
+  where the index $k$ now denotes the discrete time variable. If one uses first-order Euler extrapolation for the time discretization, the relation between $\mathbfcal{F}$ and $\mathbfcal{G}$ is given by
   \begin{equation}
-    \bm{\Phi}(\mathbf{X}) = \mathbf{X} + \Updelta t \mathbfcal{F}\left( \mathbf{X} \right),
+    \mathbfcal{G} (\mathbf{X}) = \mathbf{X} + \Updelta t \mathbfcal{F}\left( \mathbf{X} \right),
     \notag
   \end{equation}
   where $\Updelta t$ is the time-step and the explicit dependences on $t$ and $k$ have been dropped for the sake of simplicity.
@@ -42,7 +42,7 @@
   \subsection{Fixed points}
   \label{subsec: theory-fixed points}
 
-  Nonlinear dynamical systems described by Eq.~\eqref{eq: theory -- continuous-time dynamical system} or Eq.~\eqref{eq: theory -- discrete-time dynamical system} tend to admit a number of different equilibria forming the backbone of their phase space. These different equilibria can take the form of fixed points, periodic orbits or strange attractors for instance. In the rest of this work, our attention will be solely focused on fixed points.
+  Nonlinear dynamical systems described by Eq.~\eqref{eq: theory -- continuous-time dynamical system} or Eq.~\eqref{eq: theory -- discrete-time dynamical system} tend to admit a number of different equilibria forming the backbone of their phase space. These different equilibria can take the form of fixed points, periodic orbits, torus or strange attractors for instance. In the rest of this work, our attention will be solely focused on fixed points.
 
   For a continuous-time dynamical system described by Eq.~\eqref{eq: theory -- continuous-time dynamical system}, fixed points $\mathbf{X}^{*}$ are solution to
   \begin{equation}
@@ -51,10 +51,10 @@
   \end{equation}
   Conversely, fixed points $\mathbf{X}^*$ of a discrete-time dynamical system described by Eq.~\eqref{eq: theory -- discrete-time dynamical system} are solution to
   \begin{equation}
-    \bm{\Phi} \left( \mathbf{X} \right) = \mathbf{X}.
+    \mathbfcal{G} \left( \mathbf{X} \right) = \mathbf{X}.
     \label{eq: theory -- discrete-time fixed point}
   \end{equation}
-  It must be emphasized that both Eq.~\eqref{eq: theory -- continuous-time fixed point} and Eq.~\eqref{eq: theory -- discrete-time fixed point} may admit multiple solutions. Such a multiplicity of fixed points can easily be illustrated by a simple Duffing oscillator given by
+  It must be emphasized that both Eq.~\eqref{eq: theory -- continuous-time fixed point} and Eq.~\eqref{eq: theory -- discrete-time fixed point} may admit multiple solutions. Such a multiplicity of fixed points can easily be illustrated by a dynamical system as simple as the following Duffing oscillator
   \begin{equation}
     \begin{aligned}
       \dot{x} & = y \\
@@ -169,10 +169,10 @@
 
   Looking once more at figure \ref{fig: theory -- illustration modal stability}, it can be seen that, although the system is linearly stable for $Re=50$, the perturbation $\mathbf{x}$ can experience a transient growth of its energy for a short period of time, roughly given by $0 < t <100$ in the present case, before its eventual exponential decay. This behavior is related to the \emph{non-normality} of $\mathbfcal{A}$, i.e.\
   \begin{equation}
-    \mathbfcal{A}^H \mathbfcal{A} \neq \mathbfcal{A} \mathbfcal{A}^H,
+    \mathbfcal{A}^{\dagger} \mathbfcal{A} \neq \mathbfcal{A} \mathbfcal{A}^{\dagger},
     \label{eq: theory -- non-normality equation}
   \end{equation}
-  where $\mathbfcal{A}^H$ is the Hermitian (also known as the \emph{adjoint}) of $\mathbfcal{A}$. As a result of this non-normality, the eigenvectors of $\mathbfcal{A}$ do not form an orthonormal set of vectors\footnote{Note that the non-normality of $\mathbfcal{A}$ also implies that its right and left eigenvectors are different. As will be discussed in \textsection \ref{sec: application}, this observation may have large consequences in fluid dynamics, particularly when addressing the problems of optimal linear control and/or estimation of strongly non-parallel flows.}. The consequences of this non-orthogonality of the set of eigenvectors can be visualized on figure \ref{fig: theory -- illustration transient growth} where the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$ is depicted in the phase plane of our toy-model \eqref{eq: theory -- schmid system}. The perturbation $\mathbf{x}(t)$ is first attracted toward the linear manifold associated to the least stable eigenvalue $\lambda_1$, causing in the process the transient growth of its energy by a factor 300. Once it reaches the vicinity of the linearly stable manifold, the perturbation eventually decays exponentially rapidly along this eigendirection of the fixed point. The next sections are devoted to the introduction of mathematical tools particularly useful to characterize phenomena resulting from this non-normality of $\mathbfcal{A}$, both in the time and frequency domains, when the fixed point considered is stable.
+  where $\mathbfcal{A}^{\dagger}$ is the \emph{adjoint} of $\mathbfcal{A}$. As a result of this non-normality, the eigenvectors of $\mathbfcal{A}$ do not form an orthonormal set of vectors\footnote{Note that the non-normality of $\mathbfcal{A}$ also implies that its right and left eigenvectors are different. As will be discussed in \textsection \ref{sec: application}, this observation may have large consequences in fluid dynamics, particularly when addressing the problems of optimal linear control and/or estimation of strongly non-parallel flows.}. The consequences of this non-orthogonality of the set of eigenvectors can be visualized on figure \ref{fig: theory -- illustration transient growth} where the trajectory stemming from a random unit-norm initial condition $\mathbf{x}_0$ is depicted in the phase plane of our toy-model \eqref{eq: theory -- schmid system}. The perturbation $\mathbf{x}(t)$ is first attracted toward the linear manifold associated to the least stable eigenvalue $\lambda_1$, causing in the process the transient growth of its energy by a factor 300. Once it reaches the vicinity of the linearly stable manifold, the perturbation eventually decays exponentially rapidly along this eigendirection of the fixed point. The next sections are devoted to the introduction of mathematical tools particularly useful to characterize phenomena resulting from this non-normality of $\mathbfcal{A}$, both in the time and frequency domains, when the fixed point considered is stable.
 
   \begin{figure}[b]
     \centering
@@ -200,7 +200,7 @@
       \begin{equation}
           \begin{aligned}
             \maximize \limits_{\mathbf{x}_0} & \mathcal{J} \left( \mathbf{x}_0 \right) = \| \mathbf{x}(T) \|_2^2\\
-            \subjecto & \int_0^T \left( \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} \right) \ \mathrm{d}t = 0 \\
+            \subjecto & \dot{\mathbf{x}} - \mathbfcal{A}\mathbf{x} = 0 \\
             ~ & \| \mathbf{x}_0 \|_2^2 - 1 = 0,
           \end{aligned}
           \label{eq: theory -- constrained maximization}
@@ -228,12 +228,12 @@
       \end{equation}
       is known as the \emph{augmented Lagrangian} function. The additional optimization variables $\mathbf{v}$ and $\mu$ appearing in the definition of the augmented Lagrangian $\mathcal{L}$ are called \emph{Lagrange multipliers}. Solutions to problem \eqref{eq: theory -- unconstrained maximization} are identified by vanishing first variations of $\mathcal{L}$ with respect to our three optimization variables. The first variation of $\mathcal{L}$ with respect to $\mathbf{v}$ and $\mu$ are simply the constraints of our original problem \eqref{eq: theory -- constrained maximization}. The first variation of $\mathcal{L}$ with respect to $\mathbf{x}$ on the other hand is given by
       \begin{equation}
-        \mathbf{0} = \left[ \nabla_{\mathbf{x}} \mathcal{J} + \mathbf{v}(T) \right] \cdot \delta \mathbf{x}(0) + \int_0^T \left[ \dot{\mathbf{v}} - \mathbfcal{A}^H \mathbf{v} \right] \cdot \delta \mathbf{x} \ \mathrm{dt} + \left[ 2\mu \mathbf{x}_0 - \mathbf{v}(0) \right] \cdot \delta \mathbf{x}(0).
+        \delta_{\mathbf{x}} \mathcal{L} = \left[ \nabla_{\mathbf{x}} \mathcal{J} + \mathbf{v}(T) \right] \cdot \delta \mathbf{x}(0) + \int_0^T \left[ \dot{\mathbf{v}} - \mathbfcal{A}^{\dagger} \mathbf{v} \right] \cdot \delta \mathbf{x} \ \mathrm{dt} + \left[ 2\mu \mathbf{x}_0 - \mathbf{v}(0) \right] \cdot \delta \mathbf{x}(0).
         \label{eq: theory -- optimality condition}
       \end{equation}
       Eq. \eqref{eq: theory -- optimality condition} vanishes only if
       \begin{equation}
-        \dot{\mathbf{v}} = \mathbfcal{A}^H \mathbf{v} \ \text{ over } t \in \left( 0, T \right),
+        \dot{\mathbf{v}} = \mathbfcal{A}^{\dagger} \mathbf{v} \ \text{ over } t \in \left( 0, T \right),
         \label{eq: theory -- adjoint equations}
       \end{equation}
       and
@@ -245,12 +245,14 @@
         \label{eq: theory -- compatibility conditions}
       \end{equation}
       Note that Eq. \eqref{eq: theory -- adjoint equations} is known as the adjoint system\footnote{
-      Given an appropriate norm, here the 2-norm, the adjoint operator $\mathbfcal{A}^H$ is defined such that
+      Given an appropriate inner product, the adjoint operator $\mathbfcal{A}^{\dagger}$ is defined such that
       \begin{equation}
-        \langle \mathbf{v} \vert \mathbfcal{A} \mathbf{x} \rangle = \langle \mathbfcal{A}^H \mathbf{v} \vert \mathbf{x} \rangle,
+        \langle \mathbf{v} \vert \mathbfcal{A} \mathbf{x} \rangle = \langle \mathbfcal{A}^{\dagger} \mathbf{v} \vert \mathbf{x} \rangle,
         \notag
       \end{equation}
-      where $\langle \mathbf{a} \vert \mathbf{b} \rangle$ is the standard Euclidean inner product in the present case.
+      where $\langle \mathbf{a} \vert \mathbf{b} \rangle$ denotes the inner product of $\mathbf{a}$ and $\mathbf{b}$. If one consider the classical Euclidean inner product, the adjoint operator is simply given by
+      $$\mathbfcal{A}^{\dagger} = \mathbfcal{A}^H$$
+      where $\mathbfcal{A}^H$ is the Hermitian (i.e.\ complex-conjugate transpose) of $\mathbfcal{A}$. It must be noted finally that the direct operator $\mathbfcal{A}$ and the adjoint one $\mathbfcal{A}^{\dagger}$ have the same eigenspectrum. This last observation is a key point when one aims at validating the numerical implementation of an adjoint solver.
       }
       of our original linear dynamical system, while Eq. \eqref{eq: theory -- compatibility conditions} are called compatibility conditions. Maximizing $\mathcal{L}$ is then a problem of simultaneously satisfying \eqref{eq: theory -- linear perturbation dynamics}, \eqref{eq: theory -- adjoint equations} and \eqref{eq: theory -- compatibility conditions}. This is in general done iteratively by gradient-based algorithms such as gradient ascent or the rotation-update gradient algorithm (see \textsection \ref{sec: numerics}). For more details about adjoint-based optimization, see \cite{book:boyd:2004, nonlinear_optimal:kerswell:2014}.
 
@@ -258,7 +260,7 @@
       \paragraph{Formulation using SVD}
       \label{paragraph: theory -- optimal perturbation svd}
 
-      As stated previously, formulating the optimal perturbation analysis as a constrained maximization results in a non-convex optimization problem \eqref{eq: theory -- constrained maximization}. Consequently, although a solution to \eqref{eq: theory -- constrained maximization} can easily be obtained by means of gradient-based algorithms, one cannot rule out the possibility that this solution is not the optimal one but only a local maxima. In this section, we will show that recasting problem \eqref{eq: theory -- constrained maximization} in the framework of linear algebra however allows us to obtain easily this global optimal.
+      As stated previously, formulating the optimal perturbation analysis as a constrained maximization results in a non-convex optimization problem \eqref{eq: theory -- constrained maximization}. Consequently, although a solution to \eqref{eq: theory -- constrained maximization} can easily be obtained by means of gradient-based algorithms, one cannot rule out the possibility that this solution is only a local maxima rather than the global one. In this section, we will show that recasting problem \eqref{eq: theory -- constrained maximization} in the framework of linear algebra however allows us to obtain easily this global optimal.
 
       Let us first redefine our optimization problem as
       \begin{equation}
@@ -287,7 +289,7 @@
         \mathcal{G}(T) = \sigma_1^2,
         \label{theory -- optimal energy gain }
       \end{equation}
-      where $\sigma_1$ is the dominant singular value of the exponential propagator $\mathbfcal{M} = \exp \left( \mathbfcal{A} T \right)$. The optimal initial condition $\mathbf{x}_0$ is then given by the principal right singular vector (i.e.\ $\mathbf{x}_0 = \mathbf{v}_1$), while the associated response is given by $\mathbf{x}(T) = \sigma_1 \mathbf{u}_1$, where $\mathbf{u}_1$ is the principal left singular vector.
+      where $\sigma_1$ is the largest singular value of the exponential propagator $\mathbfcal{M} = \exp \left( \mathbfcal{A} T \right)$. The optimal initial condition $\mathbf{x}_0$ is then given by the principal right singular vector (i.e.\ $\mathbf{x}_0 = \mathbf{v}_1$), while the associated response is given by $\mathbf{x}(T) = \sigma_1 \mathbf{u}_1$, where $\mathbf{u}_1$ is the principal left singular vector.
 
       % --> Illustration.
       \paragraph{Illustration}
@@ -322,7 +324,7 @@
     \begin{equation}
       \mathbf{f}(t) = \Re \left( \hat{\mathbf{f}} e^{i \omega t} \right)
     \end{equation}
-    where $\omega \in \mathbb{R}$ is the forcing circular frequency. The convolution integral can now be easily computed in the frequency domain. Given our assumptions, the asymptotic response of the system at the frequency $\omega$ is given by
+    where $\omega \in \mathbb{R}$ is the circular frequency of the forcing. The convolution integral can now be easily computed in the frequency domain. Given our assumptions, the asymptotic response of the system at the frequency $\omega$ is given by
     \begin{equation}
       \hat{\mathbf{x}} = \left( i \omega \mathbfcal{I} - \mathbfcal{A} \right)^{-1} \hat{\mathbf{f}}.
       \label{eq: theory -- transfer function}
@@ -342,7 +344,7 @@
       \mathcal{R}(\omega) = \sigma_1^2,
       \notag
     \end{equation}
-    where $\sigma_1$ is the leading singular value of $\mathbfcal{R}(\omega)$. The associated optimal forcing $\hat{\mathbf{f}}$ and response $\hat{\mathbf{x}}$ are then given by the corresponding right and left singular vectors, respectively.
+    where $\sigma_1$ is the largest singular value of $\mathbfcal{R}(\omega)$. The associated optimal forcing $\hat{\mathbf{f}}$ and response $\hat{\mathbf{x}}$ are then given by the corresponding right and left singular vectors, respectively.
 
     % --> Illustration.
     \paragraph{Illustration}
