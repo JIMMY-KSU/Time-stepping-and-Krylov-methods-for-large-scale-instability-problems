@@ -65,6 +65,7 @@ where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential pr
 
     %-----> Selective frequency damping.
     \subsubsection{Selective Frequency Damping}
+    \label{subsubsec: numerics -- selective frequency damping}
 
     Selective frequency damping is a fixed point computation technique proposed by {\AA}kervik \emph{et al.}\ \cite{pof:akervik:2006} in 2006 and largely adapted from the original work of Pruett \emph{et al.}\ \cite{pof:pruett:2003, pof:pruett:2006} on temporal approximate deconvolution models for large-eddy simulations. It has since become one of the standard approaches for fixed point computation in fluid dynamics due to its ease of implementation. Note that various implementations of the original selective frequency damping method have been proposed over the years \cite{pof:jordi:2014, pof:jordi:2015, pof:cunha:2015}. Moreover, it has since been extented to compute steady states of the Reynolds-Averaged-Navier-Stokes (RANS) equations \cite{cf:richez:2016} as well as for the computation of unstable periodic orbits \cite{prf:leopold:2017}. In the rest of this section, only the original formulation by {\AA}kervik \emph{et al.}\ \cite{pof:akervik:2006} will be described.
 
@@ -133,11 +134,25 @@ where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential pr
     \end{figure}
 
     %-----> Newton-Krylov method.
-    \subsubsection{Newton-Krylov method}
+    \subsubsection{Newton-Krylov methods}
+    \label{subsubsec: numerics -- newton-krylov methods}
+
+    While we relied on the continuous time representation of our system in \textsection \ref{subsubsec: numerics -- selective frequency damping}, we will now turn to its discrete-time counterpart in order to stay as close as possible to the actual time-stepper implementation of the algorithm to be describe. For that purpose, we will thus consider the following nonlinear system
+    \begin{equation}
+      \mathbf{X}_{k+1} = \mathbfcal{G}\left( \mathbf{X}_k \right).
+      \label{eq: numerics -- discrete time system}
+    \end{equation}
+    Our goal is thus to find a fixed point $\mathbf{X}$ of this problem. Newton-Raphson method is a natural choice, provided the dimension of $\mathbf{X}$ is not too large. For large-scale dynamical systems, one may turn to the class of Newton-Krylov methods instead. These encompasses a wide variety of different approaches, part of which have been reviewed in \cite{jcp:knoll:2004}. In the rest of this section, we will present a variant of the recursive projection method originally proposed by Shroff \& Keller \cite{siam:shroff:1993}.
+
+    % It can be shown that iteration \eqref{eq: numerics -- discrete time system} converges if all the eigenvalues $\{ \mu_k \}_1^n$ of the Jacobian of $\mathbfcal{G}$ lie in the unit disk and the initial iterate $\mathbf{X}_0$ is sufficiently close to the actual fixed point $\mathbf{X}^*$. Note moreover that, for our purposes, the Jacobian of $\mathbfcal{G}$ is given by the exponential propagator
+    % \begin{equation}
+    %   \mathbfcal{M} = \exp \left( \mathbfcal{A} T \right).
+    %   \label{eq: numerics -- jacobian matrix}
+    % \end{equation}
+    % Iteration \eqref{eq: numerics -- discrete time system} will however fail to converge if any eigenvalues of $\mathbfcal{M}$ lies outside the unit disk. Moreover, if all eigenvalues are within the unit disk, convergence may be slow if any of them lie close to the boundary of the disk.
 
     %-----> BoostConv.
     \subsubsection{BoostConv}
-
 
     %-----> Comparison.
     \subsubsection{Comparison of the different approaches}
@@ -151,16 +166,144 @@ where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential pr
 
   \subsection{Linear stability and eigenvalue computation}
 
+  The aim of linear stability analysis is to determine whether a perturbation $\textbf{x}$, governed by
+  \begin{equation}
+    \dot{ \mathbf{x} } = \mathbfcal{A} \mathbf{x},
+    \notag
+  \end{equation}
+  will grow or decay exponentially rapidly as $t \to \infty$. This asymptotic behavior is entirely governed by the eigenspectrum of the Jacobian matrix $\mathbfcal{A}$: if at least one of its eigenvalues has a positive (resp. negative) real part, the linear system considered is unstable (resp. stable), see \textsection \ref{subsec: theory -- linear stability} for more details.
+
+  It must emphasized that, within a time-stepper framework, one does not seek directly for the eigenpairs of the Jacobian matrix $\mathbfcal{A}$ of the continuous-time problem. Instead, the problem considered is recast in the discrete-time framework as
+  \begin{equation}
+    \mathbf{x}_{k+1} = \mathbfcal{M} \mathbf{x}_k,
+    \label{eq: numerics -- discrete-time linear system}
+  \end{equation}
+  where $\mathbfcal{M} = \exp \left( \mathbfcal{A} T \right)$ is the exponential propagator already introduced in \textsection \ref{subsec: theory -- linear stability}, \textsection \ref{subsubsec: theory -- optimal perturbation}, and \textsection \ref{subsubsec: numerics -- newton-krylov methods}, and where $T$ is the sampling period. The system is then linearly unstable if at least one eigenvalue $\mu$ of $\mathbfcal{M}$ lies outside the unit disk, i.e. $\vert \mu \vert > 1$.
+
+  As discussed previously, although one cannot explicitly assemble the exponential propagator $\mathbfcal{M}$, its action onto a given vector $\mathbf{x}_k$ simply amounts to march in time the linearized system from $t = kT$ to $t = (k+1)T$. This ability to evaluate relatively easily the matrix-vector product given by \eqref{eq: numerics -- discrete-time linear system} allows us to use iterative solvers as to compute the eigenpairs of $\mathbfcal{M}$. The rest of this section is thus devoted to the presentation of three iterative eigenvalue solvers, namely the power iteration method, the Arnoldi decomposition and the Krylov-Schur decomposition.
     %-----> Power Iteration.
     \subsubsection{Power Iteration method}
+    \label{subsubsec: numerics -- power iteration}
 
     %-----> Arnoldi decomposition.
     \subsubsection{Arnoldi decomposition}
+    \label{subsubsec: numerics -- arnoldi}
+
+    Starting from the power iteration method, let us denote the generated sequence of vectors as
+    \begin{equation}
+      \mathbfcal{K}_m\left( \mathbfcal{M}, \mathbf{v}_0 \right) = \left\{ \mathbf{v}_0, \mathbfcal{M}\mathbf{v}_0, \cdots, \mathbfcal{M}^{m-1} \mathbf{v}_0 \right\}.
+      \label{eq: numerics -- krylov sequence}
+    \end{equation}
+    Eq. \eqref{eq: numerics -- krylov sequence} is known as a \emph{Krylov sequence} eventually converging toward the eigenvector associated to the largest eigenvalue (in modulus) of $\mathbfcal{M}$ as $m \to \infty$. The power iteration method retains only the last vector of this sequence while discarding the information contained in the first $m-1$ vectors.
+
+    Contrary to the power iteration method, Arnoldi decomposition uses all of the information contained in the Krylov sequence \eqref{eq: numerics -- krylov sequence} as to compute better estimates of the leading eigenvalues of $\mathbfcal{M}$. Readers can easily be convinced that the Krylov sequence \eqref{eq: numerics -- krylov sequence} obeys
+    \begin{equation}
+      \mathbfcal{M} \mathbfcal{K}_m \simeq \mathbfcal{K}_m \mathbfcal{C},
+      \notag
+    \end{equation}
+    where $\mathbfcal{C}$ is a $m \times m$ companion matrix representing the low-dimensional projection of $\mathbfcal{M}$ onto the span of the Krylov sequence \eqref{eq: numerics -- krylov sequence}. As such, the eigenpairs of $\mathbfcal{C}$ approximate the leading eigenpairs of $\mathbfcal{M}$. It must be emphasized however that, as $m$ increases, the last vectors in the Krylov sequence become almost parallel. Consequently, the companion matrix $\mathbfcal{C}$ becomes increasingly ill-conditioned. As to overcome the loss of information from the power iteration method and the increasingly ill-conditioned companion matrix decomposition, the Arnoldi method combines them with a Gram-Schmidt orthogonalization process. The basic Arnoldi iteration then reads
+    \begin{equation}
+      \mathbfcal{MV}_m = \mathbfcal{V}_m \mathbfcal{H}_m + \mathbf{r}_{m} \mathbf{e}^T_m,
+      \label{eq: numerics -- m-step Arnoldi}
+    \end{equation}
+    where $\mathbfcal{V}_m$ is an orthonormal set of vectors, $\mathbfcal{H}_m$ is a $m \times m$ upper Hessenberg matrix and $\vert \mathbf{r}_{m} \mathbf{e}^T_m \vert$ is the residual indicating how far $\mathbfcal{V}_m$ is from from an invariant subspace of $\mathbfcal{M}$. Because of its relatively small dimension, the eigenpairs $\left( \mu_H, \mathbf{y} \right)$ of the Hessenberg matrix, also known as Ritz pairs, can be computed using direct eigensolvers, e.g.\ QZ decomposition. The Ritz pairs of $\mathbfcal{H}_m$ are related to the eigenpairs of $\mathbfcal{M}$ as follows
+    \begin{equation}
+      \begin{aligned}
+        \mu_{\mathbfcal{M}} & \simeq \mu_{\mathbfcal{H}} \\
+        \hat{\mathbf{u}} & \simeq \mathbfcal{V}_m \mathbf{y}.
+      \end{aligned}
+    \end{equation}
+    A detailed presentation of the basic $m$-step Arnoldi factorization is given in algorithm \eqref{algo: Arnoldi} while figure \ref{fig: numerics -- arnoldi decomposition} depicts its block-diagram representation to ease the understanding. As can be seen, Arnoldi decomposition is relatively simple to implement within an existing time-stepper code. One has to bear in mind however that this technique resembles some sophisticated signal processing. As a consequence, in order to capture (within a time-stepper framework) an eigenpair of the Jacobian matrix $\mathbfcal{A}$ characterized by a circular frequency $\omega$, one has to obey the Nyquist criterion and needs at least four snapshots to appropriately discretize the associated period.
+
+    \begin{algorithm}
+      \begin{algorithmic}
+        \REQUIRE $\mathbfcal{M} \in \mathbb{R}^{n \times n}$, starting vector $\mathbf{v} \in \mathbb{R}^n$.\\
+        $\mathbf{v}_1 = \mathbf{v} / \| \mathbf{v} \|$;\\
+        $\mathbf{w} = \mathbfcal{M} \mathbf{v}_1$; \\
+        $\alpha_1 = \mathbf{v}_1^T \mathbf{w}$;\\
+        $\mathbf{f}_1 \leftarrow \mathbf{w} - \alpha_1 \mathbf{v}_1$;\\
+        $\mathbfcal{V}_1 \leftarrow \left( \mathbf{v}_1 \right)$; \\
+        $\mathbfcal{H}_1 \leftarrow (\alpha_1)$;\\
+        \FOR{$j=1,2,\cdots,m-1$}
+        \STATE{$\beta_j=\|\mathbf{f}_j\|$; \\
+        $\mathbf{v}_{j+1} \leftarrow \mathbf{f}_j/\beta_j$; \\
+        $\mathbfcal{V}_{j+1} \leftarrow \left( \mathbfcal{V}_j, \mathbf{v}_{j+1} \right)$;\\
+
+        $\hat{\mathbfcal{H}}_j \leftarrow \begin{pmatrix}
+                                            \mathbfcal{H}_j \\
+                                            \beta_j \mathbf{e}_j^T
+                                          \end{pmatrix}
+        $ \\
+        $\mathbf{w} \leftarrow \mathbfcal{M} \mathbf{v}_{j+1}$;\\
+        $\mathbf{h} \leftarrow \mathbfcal{V}_{j+1}^T \mathbf{w}$; \\
+        $\mathbf{f}_{j+1} \leftarrow \mathbf{w} - \mathbfcal{V}_{j+1} \mathbf{h}$;\\
+        $\mathbfcal{H}_{j+1} \leftarrow (\hat{\mathbfcal{H}}_j,\mathbf{h})$;}
+        \ENDFOR
+      \end{algorithmic}
+      \caption{The $m$-step \emph{Arnoldi} factorisation.}
+      \label{algo: Arnoldi}
+    \end{algorithm}
+
+    \begin{figure}[b]
+      \centering
+      \includegraphics[width=.9\textwidth]{Arnoldi}
+      \caption{Block-diagram representation of the basic $m$-step Arnoldi factorization. Note that, within a time-stepper framework, every matrix-vector product $\mathbfcal{M} \mathbf{v}_i$ is evaluated by marching in time the linearized system considered.}
+      \label{fig: numerics -- arnoldi decomposition}
+    \end{figure}
 
     %-----> Krylov-Schur decomposition.
     \subsubsection{Krylov-Schur decomposition}
 
+    Let us consider the $m$-step Arnoldi factorization
+    \begin{equation}
+      \mathbfcal{MV}_m = \mathbfcal{V}_m \mathbfcal{H}_m + \beta \mathbf{v}_{m+1} \mathbf{e}^T_m
+      \label{eq: m-step Arnoldi}
+    \end{equation}
+    introduced in \textsection \ref{subsubsec: numerics -- arnoldi}. As discussed previously, the Ritz pair $\left( \mu_H, \mathbfcal{V}_m \mathbf{y} \right)$ of $\mathbfcal{H}_m$ provides a good approximation for the eigenpair $\left( \mu, \hat{\mathbf u} \right)$ of the matrix $\mathbfcal{M}$. One limitation of the Arnoldi decomposition is however that the dimension $m$ of the Krylov subspace necessary to converge the leading Ritz pairs is not known \emph{a priori}. It might hence be relatively large, thus potentially causing some numerical and/or practical problems (e.g.\ storage of Krylov basis $\mathbfcal{V}_m$, forward instability of the Gram-Schmidt process involved in the Arnoldi decomposition, etc). Two different approaches have been proposed to overcome these limitations: the \emph{Implicitly Restarted Arnoldi Method} introduced by Sorensen \cite{Sorensen_SIAM_1992} in 1992 and the \emph{Krylov-Schur decomposition} introduced by Stewart \cite{Stewart_SIAM_2001} in 2001. In the present work, the latter approach has been preferred because of its simplicity of implementation and its robustness.
 
+    The Krylov-Schur method is based on the generalization of the m-step Arnoldi factorization~\eqref{eq: m-step Arnoldi} to a \emph{Krylov decomposition} of order $m$
+    \begin{equation}
+      \mathbfcal{MV}_m = \mathbfcal{V}_m \mathbfcal{B}_m + \mathbf{v}_{m+1} \mathbf{b}_{m+1}^T
+      \label{eq: Krylov decomposition}
+    \end{equation}
+    in which the matrix $\mathbfcal{B}_m$ and the vector $\mathbf{b}_{m+1}$ have no restriction. The Arnoldi decomposition then appears as a special case of Krylov decomposition when $\mathbfcal{B}_m$ is restricted to be in upper Hessenberg form and $\mathbf{b}_{m+1} = \mathbf{e}_m$. Another special case is the \emph{Krylov-Schur} decomposition in which the matrix $\mathbfcal{B}_m$ is in real Schur form (i.e.\ quasi-triangular form with its eigenvalues in the $1 \times 1$ or $2 \times 2$ diagonal blocks). It has been shown by Stewart \cite{Stewart_SIAM_2001} that Krylov and Arnoldi decompositions are equivalent (i.e.\ they have the same Ritz approximations). Moreover, by means of orthogonal similarity transformations, any Krylov decomposition can be transformed into an equivalent Krylov-Schur decomposition. The core of the Krylov-Schur method is thus based on a two-steps procedure: (\emph{i}) an expansion step performed using a $m$-step Arnoldi factorization, and (\emph{ii}) a contraction step to a Krylov-Schur decomposition of order $p$ retaining only the most useful spectral information from the initial $m$-step Arnoldi decomposition. Given an initial unit-norm vector $\mathbf{v}_1$, a subroutine to compute the matrix-vector product $\mathbfcal{M} \mathbf{v}_i$, and the desired dimension $m$ of the Krylov subspace, the Krylov-Schur method can be summarized as follows:
+    \begin{enumerate}
+      \item Construct an initial Krylov decomposition of order $m$ using for instance the $m$-step Arnoldi factorization~\eqref{eq: m-step Arnoldi}.
+
+      \item Check for the convergence of the Ritz eigenpairs. If a sufficient number has converged, then stop. Otherwise, proceed to step 3.
+
+      \item Compute the real Schur decomposition $\mathbfcal{B}_m = \mathbfcal{Q} \mathbfcal{S}_m \mathbfcal{Q}^T$ such that the matrix $\mathbfcal{S}_m$ is in real Schur form and $\mathbfcal{Q}$ is the associated matrix of Schur vectors. It is assumed furthermore that the Ritz values on the diagonal blocks of $\mathbfcal{S}_m$ have been sorted such that the $p$ ''wanted'' Ritz values are in the upper-left corner of $\mathbfcal{S}_m$, while the $m-p$ ''unwanted'' ones are in the lower-right corner. At this point, we have the following re-ordered Krylov-Schur decomposition
+      \begin{equation}
+        \mathbfcal{M} \tilde{\mathbfcal{V}}_m =
+        \tilde{\mathbfcal{V}}_m
+        \begin{bmatrix}
+         \mathbfcal{S}_{11} & \mathbfcal{S}_{12} \\
+         {\mathbf 0}     & \mathbfcal{S}_{22}
+       \end{bmatrix}
+       + {\mathbf v}_{m+1}\begin{bmatrix}
+                           {\mathbf b}_{1}^T & {\mathbf b}_{2}^T
+                           \end{bmatrix}
+        \label{eq: Krylov-Schur decomposition}
+      \end{equation}
+      with $\tilde{\mathbfcal{V}}_m = \mathbfcal{V}_m  \mathbfcal{Q}$ being the re-ordered Krylov basis, $\mathbfcal{S}_{11}$ the subset of the Schur matrix containing the $p$ ''wanted'' Ritz values, $\mathbfcal{S}_{22}$ the subset containing the $m-p$ ''unwanted'' ones, and $\begin{bmatrix} {\mathbf b}_1^T & {\mathbf b}_2^T \end{bmatrix} = {\mathbf b}^T \mathbfcal{Q}$.
+
+      \item Truncate the Krylov-Schur decomposition~\eqref{eq: Krylov-Schur decomposition} of order $m$ to a Krylov decomposition of order $p$,
+        \begin{equation}
+          \mathbfcal{M}\tilde{\mathbfcal{V}}_p = \tilde{\mathbfcal{V}}_p \mathbfcal{S}_{11} + \tilde{\mathbf v}_{p+1}{\mathbf b}_1^T
+        \end{equation}
+      with $\tilde{\mathbfcal{V}}_p$ equal to the first $p$ columns of $\tilde{\mathbfcal{V}}_m$ and $\tilde{\mathbf v}_{p+1} = {\mathbf v}_{m+1}$.
+
+      \item Extend again to a Krylov decomposition of order $m$ using a variation of the procedure used in the first step: the procedure is re-initialized with the starting vector ${\mathbf v}_{p+1}$ but all the vectors in $\tilde{\mathbfcal{V}}_p$ are taken into account in the orthogonalization step.
+
+      \item Check the convergence of the Ritz values. If not enough Ritz values have converged, restart from step 3.
+
+    \end{enumerate}
+    This algorithm has two critical steps. The first one is the choice of the ''wanted'' Ritz values in the re-ordering of the Schur decomposition in step 2. Since we are only interested in the leading eigenvalues of the linearized Navier-Stokes operator, all the Ritz pairs being classified as ''wanted'' must satisfy $\left| \mu_w \right| \ge 1 - \delta$ (with $\delta = 0.05 - 0.1$ usually). Regarding the criterion assessing the convergence of a given Ritz pair, starting from the Krylov decomposition~\eqref{eq: m-step Arnoldi}, one can write
+    \begin{equation}
+      \| \mathbfcal{M} \mathbfcal{V}_m \mathbf{y} - \mathbfcal{V}_m \mathbfcal{B}_m \mathbf{y} \| = \| \mathbfcal{M} \mathbfcal{V}_m \mathbf{y} - \mu_{\mathbf B} \mathbfcal{V}_m \mathbf{y} \| = \left| \beta \mathbf{e}_m^T \mathbf{y} \right|
+      \label{eq: Krylov convergence}
+    \end{equation}
+    with $(\mu_{\mathbf B},\mathbf{y})$ a given eigenpair of the matrix $\mathbfcal{B}_m$. If the right hand side $\left| \beta {\mathbf e}_{m}^T{\mathbf y} \right|$ is smaller than a given tolerance, then the Ritz pair $(\mu_{\mathbf B}, \mathbfcal{V}_m {\mathbf y})$ provides a good approximation to the eigenpair $(\mu, \hat{\mathbf u})$ of the original matrix $\mathbfcal{M}$. A Ritz value is generally considered as being converged if the associated residual $\left| \beta {\mathbf e}_{m}^T{\mathbf y} \right| \le 10^{-6}$.
 
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
