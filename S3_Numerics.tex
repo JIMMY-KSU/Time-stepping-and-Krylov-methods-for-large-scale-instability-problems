@@ -180,21 +180,21 @@ where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential pr
   \end{equation}
   where $\mathbfcal{M} = \exp \left( \mathbfcal{A} T \right)$ is the exponential propagator already introduced in \textsection \ref{subsec: theory -- linear stability}, \textsection \ref{subsubsec: theory -- optimal perturbation}, and \textsection \ref{subsubsec: numerics -- newton-krylov methods}, and where $T$ is the sampling period. The system is then linearly unstable if at least one eigenvalue $\mu$ of $\mathbfcal{M}$ lies outside the unit disk, i.e. $\vert \mu \vert > 1$.
 
-  As discussed previously, although one cannot explicitly assemble the exponential propagator $\mathbfcal{M}$, its action onto a given vector $\mathbf{x}_k$ simply amounts to march in time the linearized system from $t = kT$ to $t = (k+1)T$. This ability to evaluate relatively easily the matrix-vector product given by \eqref{eq: numerics -- discrete-time linear system} allows us to use iterative solvers as to compute the eigenpairs of $\mathbfcal{M}$. The rest of this section is thus devoted to the presentation of three iterative eigenvalue solvers, namely the power iteration method, the Arnoldi decomposition and the Krylov-Schur decomposition.
-    %-----> Power Iteration.
-    \subsubsection{Power Iteration method}
-    \label{subsubsec: numerics -- power iteration}
+  As discussed previously, although one cannot explicitly assemble the exponential propagator $\mathbfcal{M}$, its action onto a given vector $\mathbf{x}_k$ simply amounts to march in time the linearized system from $t = kT$ to $t = (k+1)T$. This ability to evaluate relatively easily the matrix-vector product given by \eqref{eq: numerics -- discrete-time linear system} allows us to use iterative solvers as to compute the eigenpairs of $\mathbfcal{M}$. The rest of this section is thus devoted to the presentation of two iterative eigenvalue solvers, namely the Arnoldi decomposition and the Krylov-Schur decomposition.
+    % %-----> Power Iteration.
+    % \subsubsection{Power Iteration method}
+    % \label{subsubsec: numerics -- power iteration}
 
     %-----> Arnoldi decomposition.
     \subsubsection{Arnoldi decomposition}
     \label{subsubsec: numerics -- arnoldi}
 
-    Starting from the power iteration method, let us denote the generated sequence of vectors as
+    Let us denote the following sequence of vectors
     \begin{equation}
       \mathbfcal{K}_m\left( \mathbfcal{M}, \mathbf{v}_0 \right) = \left\{ \mathbf{v}_0, \mathbfcal{M}\mathbf{v}_0, \cdots, \mathbfcal{M}^{m-1} \mathbf{v}_0 \right\}.
       \label{eq: numerics -- krylov sequence}
     \end{equation}
-    Eq. \eqref{eq: numerics -- krylov sequence} is known as a \emph{Krylov sequence} eventually converging toward the eigenvector associated to the largest eigenvalue (in modulus) of $\mathbfcal{M}$ as $m \to \infty$. The power iteration method retains only the last vector of this sequence while discarding the information contained in the first $m-1$ vectors.
+    Eq. \eqref{eq: numerics -- krylov sequence} is known as a \emph{Krylov sequence} eventually converging toward the eigenvector associated to the largest eigenvalue (in modulus) of $\mathbfcal{M}$ as $m \to \infty$. Generating this sequence to approximate the leading eigenpair of $\mathbfcal{M}$ is known as the \emph{power iteration method}. Note that this simple method retains only the last vector of this sequence while discarding the information contained in the first $m-1$ vectors.
 
     Contrary to the power iteration method, Arnoldi decomposition uses all of the information contained in the Krylov sequence \eqref{eq: numerics -- krylov sequence} as to compute better estimates of the leading eigenvalues of $\mathbfcal{M}$. Readers can easily be convinced that the Krylov sequence \eqref{eq: numerics -- krylov sequence} obeys
     \begin{equation}
@@ -305,6 +305,8 @@ where $\mathbfcal{M} = \exp \left( \mathbfcal{A}T \right)$ is the exponential pr
     \end{equation}
     with $(\mu_{\mathbf B},\mathbf{y})$ a given eigenpair of the matrix $\mathbfcal{B}_m$. If the right hand side $\left| \beta {\mathbf e}_{m}^T{\mathbf y} \right|$ is smaller than a given tolerance, then the Ritz pair $(\mu_{\mathbf B}, \mathbfcal{V}_m {\mathbf y})$ provides a good approximation to the eigenpair $(\mu, \hat{\mathbf u})$ of the original matrix $\mathbfcal{M}$. A Ritz value is generally considered as being converged if the associated residual $\left| \beta {\mathbf e}_{m}^T{\mathbf y} \right| \le 10^{-6}$.
 
+    %-----> Comparisons.
+    \subsubsection{Comparison of the two approaches}
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%                                      %%%%%
