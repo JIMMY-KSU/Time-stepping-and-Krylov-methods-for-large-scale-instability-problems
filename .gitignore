@@ -22,3 +22,7 @@ Guidelines\.tex
 Main\.bbl
 
 Main\.blg
+
+CURBE/
+
+*.dvi

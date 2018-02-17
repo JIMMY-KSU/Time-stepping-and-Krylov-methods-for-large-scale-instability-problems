@@ -1,9 +1,339 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+@String{ AIAAJ = {AIAA Journal}}
+@String{ AIAAP = {AIAA Paper}}
+@String{ AJ    = {Aeronaut. J.}}
+@String{ AMR   = {Appl. Mech. Rev.}}
+@String{ ARB   = {Annual Research Briefs}}
+@String{ ARFM  = {Ann. Rev. Fluid Mech.}}
+@String{ AST   = {Aerospace Science and Technology}}
+@String{ CF    = {Computers and Fluids}}
+@STRING{CFD    = {Comput. Fluid Dyn.}}
+@STRING{CMAME  = {Comp. Meth. App. Mech. Eng.}}
+@String{ CRAS  = {C. R. Acad. Sci.}}
+@STRING{CRP    = {Compt. Rend. Phys.}}
+@String{ EF    = {Experiments in Fluids}}
+@String{ EJMBF = {Eur. J. Mech. B/Fluids}}
+@String{ FDR   = {Fluid Dyn. Res.}}
+@STRING{IEEETAC= {IEEE Trans. Aut. Contr.}}
+@String{ IJA   = {International Journal of Aeroacoustics}}
+@String{ IJAV  = {International Journal of Acoustics and Vibration}}
+@STRING{IJBC   = {Int. J. Bif. Chaos}}
+@STRING{IJCFD  = {Int. J. Comp. Fluid Dyn.}}
+@String{ IJNMF = {Int. J. Num. Meth. Fluids}}
+@STRING{JAC    = {J. Aircr.}}
+@String{ JASA  = {J. Acoust. Soc. Am.}}
+@String{ JCA   = {J. Comput. Acous.}}
+@String{ JCP   = {J. Comput. Phys.}}
+@String{ JEM   = {J. Eng. Math.}}
+@String{ JFE   = {ASME Journal of Fluids Engineering}}
+@String{ JFM   = {J. Fluid Mech.}}
+@String{ JFS   = {J. Fluids Struct.}}
+@STRING{JGCD   = {J. Guid. Control Dyn.}}
+@String{ JOT   = {J. Turbulence}}
+@String{ JSC   = {J. Sci. Comput.}}
+@String{ JSV   = {J. Sound Vib.}}
+@String{ JVA   = {ASME Journal of Vibration and Acoustics}}
+@String{ PAS   = {Progress in Aerospace Sciences}}
+@String{ PD    = {Physica D}}
+@String{ PF    = {Phys. Fluids}}
+@String{ PFA   = {Phys. Fluids A}}
+@STRING{PFAD  = {Phys. Fluids A-Fluid Dyn.}}
+@String{ PP    = {Phys. Plasmas}}
+@STRING{PRE    = {Phys. Rev. E}}
+@String{ PRL   = {Phys. Rev. Lett.}}
+@STRING{PRSL   = {Proc. Roy. Soc. Lond. Ser. A-Math. Phys. Eng. Sc.}}
+@String{ PSP   = {Proceedings of the Summer Program}}
+@String{PTRSL  = {Phil. Trans. R. Soc. Lond.}}
+@STRING{QAM    = {Quart. App. Math.}}
+@String{ SAM   = {Studies in Applied Mathematics}}
+@STRING{SJMAA  = {SIAM J. Mat. Anal. App.}}
+@String{ TCFD  = {Theoret. Comput. Fluid Dynamics}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+####################################
+#####                          #####
+#####     INTRODUCTION         #####
+#####                          #####
+####################################
+@incollection{tuckerman2000bifurcation,
+  title={Bifurcation analysis for timesteppers},
+  author={Tuckerman, Laurette S and Barkley, Dwight},
+  booktitle={Numerical methods for bifurcation problems and large-scale dynamical systems},
+  pages={453--466},
+  year={2000},
+  publisher={Springer}
+}
+
+@article{dijkstra2014numerical,
+  title={Numerical bifurcation methods and their application to fluid dynamics: analysis beyond simulation},
+  author={Dijkstra, Henk A and Wubs, Fred W and Cliffe, Andrew K and Doedel, Eusebius and Dragomirescu, Ioana F and Eckhardt, Bruno and Gelfgat, Alexander Yu and Hazel, Andrew L and Lucarini, Valerio and Salinger, Andy G and others},
+  journal={Communications in Computational Physics},
+  volume={15},
+  number={1},
+  pages={1--45},
+  year={2014},
+  publisher={Cambridge University Press}
+}
+
+@book{HR98,
+   author      = "Huerre, P. and Rossi, M.",
+   title       = "Hydrodynamics and nonlinear instabilities",
+   publisher   = "ed. Cambridge",
+   pages       = "chapter II : Hydrodynamic instabilities in open flows",
+   year        = 1998}
+
+@book{DR81,
+   author      = "Drazin, P.G. and Reid, W.H.",
+   title       = "Hydrodynamic Stability",
+   publisher   = "Cambridge U.P., London",
+   year        = 1981}
+
+@book{TE05,
+   author      = "Trefethen, L.N. and Embree, M.",
+   title       = "Spectra and Pseudospectra: The Behavior of Nonnormal Matrices and Operators",
+   publisher   = "Princeton University Press",
+   year        = 2005}
+
+@book{PT83,
+   author      = "R.  Peyret and T. Taylor ",
+   title       = "Computational methods for fluid flows",
+   publisher   = " New York, Springer",
+   year        = 1983}
+
+@book{P2002,
+   author      = "R.  Peyret",
+   title       = "Spectral Methods for Incompressible Viscous Flow",
+   publisher   = " New York, Springer",
+   year        = 2002}
+
+@article{BM1987,
+   author      = "Bridges, T.J. and Morris, P.J.",
+   title       = "Boundary layer stability calculations",
+   journal     = PF,
+   volume      = "30",
+   pages       = "(11)",
+   year        = "1987" }
+
+@article{BM1984,
+   author      = "Bridges, T.J. and Morris, P.J.",
+   title       = "Differential eigenvalue problems in which the parameter appears nonlinearly",
+   journal     = JCP,
+   volume      = "55",
+   pages       = "437-460",
+   year        = "1984" }
+
+@article{MZH85,
+   author      = "Malik, M.R. and Zang, T.A. and Hussaini, M.Y.",
+   title       = "a spectral collocation method for the Navier-Stokes equations",
+   journal     = JCP,
+   volume      = "61",
+   pages       = "64-88",
+   year        = 1985}
+
+@article{M90,
+   author      = "Malik, M.R.",
+   title       = "Numerical methods for hypersonic boundary layer stability",
+   journal     = JCP,
+   volume      = "86",
+   pages       = "376-413",
+   year        = 1990}
+
+@article{T2003,
+   author      = "Theofilis, V.",
+   title       = "Advances in global linear instability analysis of nonparallel and three-dimensional flows",
+   journal     = PAS,
+   volume      = "39",
+   pages       = "249-315",
+   year        = 2003}
+
+@article{T2011,
+   author      = "Theofilis, V.",
+   title       = "Global Linear Instability",
+   journal     = ARFM,
+   volume      = "43",
+   pages       = "319–352",
+   year        = 2011}
+
+@ARTICLE{J70,
+  author = {Jordinson, R.},
+  title = {The Flat Plate Boundary Layer. Part 1. Numerical Integration of the Orr-Sommerfeld Equation,},
+  journal = JFM,
+  year = {1970},
+  volume = {43},
+  pages = {801--811}
+}
+
+@ARTICLE{GJ75,
+  author = {Gaster, M. and Jordinson, R.},
+  title = {On the eigenvalues of the Orr-Sommerfeld equation},
+  journal = JFM,
+  year = {1975},
+  volume = {72},
+  pages = {121--133}
+}
+
+@ARTICLE{J71,
+  author = {Jordinson, R.},
+  title = {Spectrum of Eigenvalues of the Orr Sommerfeld Equation for Blasius Flow},
+  journal = PF,
+  year = {1971},
+  volume = {14},
+  pages = {2535}
+}
+
+@techreport{M69,
+   author      = "Mack, L.",
+   title       = "Boundary layer stability theory",
+   institution = "Jet Propulsion Laboratory, Pasadena",
+   type        = "Technical Report 900-277",
+   year        = 1969}
+
+@ARTICLE{M1976,
+  author = {Mack, L.},
+  title = {A numerical study of the temporal  eigenvalue  spectrum of the Blasius boundary layer },
+  journal = JFM,
+  year = {1976},
+  volume = {73},
+  pages = {497-520}
+}
+
+@ARTICLE{DD1969,
+  author = {Davey, A. and Drazin, P. J.},
+  title = {The stability of Poiseuille flow in a pipe },
+  journal = JFM,
+  year = {1969},
+  volume = {36},
+  pages = {209-218}
+}
+
+@ARTICLE{O1970,
+  author = {Orszag, S. A.},
+  title = {Accurate solution of the Orr-Sommerfeld stability equation },
+  journal = JFM,
+  year = {1970},
+  volume = {50},
+  pages = {659-703}
+}
+
+@ARTICLE{GH1970,
+  author = {Gary, J. and Helgason, R.},
+  title = {A Matrix Method for Ordinary Differential Eigenvalue Problems },
+  journal = JCP,
+  year = {1970},
+  volume = {5},
+  pages = {169-187}
+}
+
+@ARTICLE{ETFS1994,
+author = {Edwards, W. S. and Tuckerman, L. S. and Friesner, R. A. and Sorensen, D.},
+title = {Krylov methods for the incompressible Navier-Stokes equations},
+journal = JCP,
+year = {1994},
+volume = {110},
+pages = {82 -- 101}}
+
+@ARTICLE{NO1993,
+author = {Nayar, M. and Ortega, U.},
+title = {Computation of selected eigenvalues of generalized eigenvalues problems},
+journal = JCP,
+year = {1993},
+volume = {108},
+pages = {8 -- 14}}
+
+@misc{LSY97,
+   author      = " R. B. Lehoucq, D. C. Sorensen, C. Yang",
+   title       = " ARPACK User's Guide: Solution of Large Scale Eigenvalue Problems with
+   Implicitly Restarted Arnoldi Methods",
+   howpublished   = " Technical Note",
+   year        = 1997 }
+
+@Article{A1951,
+	author = {W.E. Arnoldi},
+	title = {The principle of minimized iterations in the solution of the matrix eigenvalue problem},
+	journal = {Quarterly of Applied Mathematics},
+	volume = {9},
+	pages = {1951},
+	year = {1951}}
+
+@Article{L1950,
+	author = {C. Lanczos},
+	title = {An iteration method for the solution of the eigenvalue problem of linear differential and integral operators},
+	journal = {J. Res. Nat. Bureau Standards},
+	volume = {Sec. B, 45},
+	pages = {255--282},
+	year = {1950}}
+
+@misc{LAPACK99,
+   author      = "Anderson, E. and Bai, Z. and Bischof, C. and Demmel, J. and
+    Dongarra, J. and Du Croz, J. and Greenbaum, A. and Hammarling, S. and McKenney, A. and Ostrouchov, S. and D. Sorensen ",
+   title       = "LAPACK Users' Guide (3rd ed.)",
+   howpublished   = "  SIAM",
+   year        = 1999}
+
+@book{intelMKL,
+    title={Intel Math Kernel Library. Reference Manual},
+    publisher={Intel Corporation},
+    city={Santa Clara},
+    country={USA},
+    isbn={630813-054US},
+    year={2009}
+}
+
+@misc{FKMTLK08,
+   author      = {Fischer, P. and Kruse, J. and Mullen, J. and Tufo, H. and Lottes, J. and Kerkemeier, S.},
+   title       = {Open source spectral element CFD solver},
+   howpublished= {https://nek5000.mcs.anl.gov/index.php/MainPage.},
+   year        = {2008}}
+
+@Book{KS2005,
+author  = {Karniadakis, G and Sherwin, S},
+title = {Spectral/hp element methods for computational fluid
+dynamics},
+publisher  = {Oxford University Press},
+year = {2005},
+edition  = {2nd edition},
+groups  = {book}
+}
+
+@article {H2012,
+    AUTHOR = {Hecht, F.}, TITLE = {New development in FreeFem++},
+   JOURNAL = {J. Numer. Math.},  FJOURNAL = {Journal of Numerical Mathematics},
+    VOLUME = {20}, YEAR = {2012},
+    NUMBER = {3-4}, PAGES = {251--265},
+      ISSN = {1570-2820}, MRCLASS = {65Y15}, MRNUMBER = {3043640},
+}
+
+@book{SB2002,
+author = "Stoer, J. and Bulirsch",
+title = "Introduction to Numerical Analysis",
+publisher = "Springer-Verlag",
+series = "Texts in Applied Mathematics, No 12",
+edition = " {T}hird",
+year = 2002}
+
+@ARTICLE{PW1998,
+author = {Pernice, M. and Walker, H. F.},
+title = {NITSOL: A Newton Iterative Solver for Nonlinear Systems},
+journal = {SIAM J. Sci. Comput.},
+year = {1998},
+volume = {19},
+number = {1},
+pages = {302--318}}
 ####################################
 #####                          #####
 #####     THEORETICAL PART     #####
 #####                          #####
 ####################################
 
+@ARTICLE{SS1971,
+  author = {Stewarson, K. and Stuart, J. T.},
+  title = {A non-linear instability theory for a wave system in plane Poiseuille flow},
+  journal = JFM,
+  year = {1971},
+  volume = {48},
+  pages = {529--545}
+}
 
 @article{nonlinear_optimal:kerswell:2014,
   author={R R Kerswell and C C T Pringle and A P Willis},
@@ -55,26 +385,54 @@
   publisher={Cambridge University Press}
 }
 
-@article{jcp:knoll:2004,
-  title={Jacobian-free Newton--Krylov methods: a survey of approaches and applications},
-  author={Knoll, D A and Keyes, D E},
-  journal={Journal of Computational Physics},
-  volume={193},
-  number={2},
-  pages={357--397},
-  year={2004},
-  publisher={Elsevier}
+@inproceedings{prsla:hunt:1991,
+  title={Instability of flows in spatially developing media},
+  author={Hunt, RE and Crighton, DG},
+  booktitle={Proc. R. Soc. Lond. A},
+  volume={435},
+  number={1893},
+  pages={109--128},
+  year={1991},
+  organization={The Royal Society}
 }
 
-@article{siam:shroff:1993,
-  title={Stabilization of unstable procedures: the recursive projection method},
-  author={Shroff, G M and Keller, H B},
-  journal={SIAM Journal on numerical analysis},
-  volume={30},
-  number={4},
-  pages={1099--1120},
-  year={1993},
-  publisher={SIAM}
+@article{amr:bagheri:2009,
+  title={Input-output analysis and control design applied to a linear model of spatially developing flows},
+  author={Bagheri, Shervin and Henningson, DS and Hoepffner, J and Schmid, PJ},
+  journal={Applied Mechanics Reviews},
+  volume={62},
+  number={2},
+  pages={020803},
+  year={2009},
+  publisher={American Society of Mechanical Engineers}
+}
+
+@article{jfm:chen:2011,
+  title={H 2 optimal actuator and sensor placement in the linearised complex Ginzburg--Landau system},
+  author={Chen, Kevin K and Rowley, Clarence W},
+  journal={Journal of Fluid Mechanics},
+  volume={681},
+  pages={241--260},
+  year={2011},
+  publisher={Cambridge University Press}
+}
+
+@article{LB2014,
+  title={Adjoint equations in stability analysis},
+  author={Luchini, P. and Bottaro, A.},
+  journal=ARFM,
+  volume={46},
+  pages={493--517},
+  year={2014}
+}
+
+@article{K2018,
+  title={Nonlinear nonmodal stability theory},
+  author={Kerswell, R.R.},
+  journal=ARFM,
+  volume={50},
+  pages={319--345},
+  year={2018}
 }
 
 #####################################
@@ -82,6 +440,17 @@
 #####     NUMERICAL METHODS     #####
 #####                           #####
 #####################################
+
+@article{jfm:sipp:2007,
+	Author = {Sipp, D. and Lebedev, A.},
+	Journal = {J. Fluid Mech.},
+	Pages = {333--358},
+	Publisher = {Cambridge Univ Press},
+	Title = {Global stability of base and mean flows: a general approach and its applications to cylinder and open cavity flows},
+	Volume = {593},
+	Year = {2007}
+  }
+
 
 #####     FIXED POINT COMPUTATION     #####
 
@@ -119,7 +488,7 @@
 }
 
 @article{pof:jordi:2015,
-  author = {Bastien E. Jordi and Colin J. Cotter and Spencer J. Sherwin},
+  author = {B E Jordi and C J Cotter and S J Sherwin},
   title = {An adaptive selective frequency damping method},
   journal = {Physics of Fluids},
   volume = {27},
@@ -130,7 +499,7 @@
 }
 
 @article{pof:jordi:2014,
-  author = {Bastien E. Jordi and Colin J. Cotter and Spencer J. Sherwin},
+  author = {B E Jordi and C J Cotter and S J Sherwin},
   title = {Encapsulated formulation of the selective frequency damping method},
   journal = {Physics of Fluids},
   volume = {26},
@@ -150,12 +519,12 @@
   issn = "0045-7930",
   doi = "https://doi.org/10.1016/j.compfluid.2016.03.027",
   url = "http://www.sciencedirect.com/science/article/pii/S0045793016300871",
-  author = "F. Richez and M. Leguille and O. Marquet",
+  author = "F Richez and M Leguille and O Marquet",
   keywords = "Selective frequency damping, RANS equations, Stall, Multiple steady solutions"
 }
 
 @article{pof:cunha:2015,
-  author = {Guilherme Cunha and Pierre-Yves Passaggia and Marc Lazareff},
+  author = {G Cunha and P-Y Passaggia and M Lazareff},
   title = {Optimization of the selective frequency damping parameters using model reduction},
   journal = {Physics of Fluids},
   volume = {27},
@@ -167,7 +536,7 @@
 
 @article{prf:leopold:2017,
   title={Time-delayed feedback technique for suppressing instabilities in time-periodic flow},
-  author={Shaabani-Ardali, L{\'e}opold and Sipp, Denis and Lesshafft, Lutz},
+  author={Shaabani-Ardali, L and Sipp, D and Lesshafft, L},
   journal={Physical Review Fluids},
   volume={2},
   number={11},
@@ -176,8 +545,93 @@
   publisher={APS}
 }
 
+@article{citro2017efficient,
+  title={Efficient stabilization and acceleration of numerical simulation of fluid flows by residual recombination},
+  author={Citro, V and Luchini, P and Giannetti, F and Auteri, F},
+  journal={Journal of Computational Physics},
+  volume={344},
+  pages={234--246},
+  year={2017},
+  publisher={Elsevier}
+}
+
+
+@article{jcp:knoll:2004,
+  title={Jacobian-free Newton--Krylov methods: a survey of approaches and applications},
+  author={Knoll, D A and Keyes, D E},
+  journal={Journal of Computational Physics},
+  volume={193},
+  number={2},
+  pages={357--397},
+  year={2004},
+  publisher={Elsevier}
+}
+
+@article{siam:shroff:1993,
+  title={Stabilization of unstable procedures: the recursive projection method},
+  author={Shroff, G M and Keller, H B},
+  journal={SIAM Journal on numerical analysis},
+  volume={30},
+  number={4},
+  pages={1099--1120},
+  year={1993},
+  publisher={SIAM}
+}
+
+@article{aiaa:campobasso:2004,
+  title={Stabilization of a linear flow solver for turbomachinery aeroelasticity using recursive projection method},
+  author={Campobasso, Michele Sergio and Giles, Michael B},
+  journal={AIAA journal},
+  volume={42},
+  number={9},
+  pages={1765--1774},
+  year={2004}
+}
+
+@article{appmaths:janovsky:2003,
+  title={Continuation of invariant subspaces via the recursive projection method},
+  author={Janovsk{\`y}, Vladim{\'\i}r and Liberda, O},
+  journal={Applications of Mathematics},
+  volume={48},
+  number={4},
+  pages={241--255},
+  year={2003},
+  publisher={Springer}
+}
+
+@article{jcp:renac:2011,
+  title={Improvement of the recursive projection method for linear iterative scheme stabilization based on an approximate eigenvalue problem},
+  author={Renac, Florent},
+  journal={Journal of Computational Physics},
+  volume={230},
+  number={14},
+  pages={5739--5752},
+  year={2011},
+  publisher={Elsevier}
+}
+##### EIGENVALUE SOLVER #####
+
+@article{aiaa:bagheri:2009,
+	Author = {Bagheri, S. and {\AA}kervik, E. and Brandt, L. and Henningson, D. S.},
+	Journal = {AIAA journal},
+	Number = {5},
+	Pages = {1057--1068},
+	Title = {Matrix-free methods for the stability and control of boundary layers},
+	Volume = {47},
+	Year = {2009}}
+
+@article{jcp:edwards:1994,
+	Author = {Edwards, W. S. and Tuckerman, L. S. and Friesner, R. A. and Sorensen, D. C.},
+	Journal = {Journal of computational physics},
+	Number = {1},
+	Pages = {82--102},
+	Publisher = {Elsevier},
+	Title = {Krylov methods for the incompressible Navier-Stokes equations},
+	Volume = {110},
+	Year = {1994}}
+
 @Article{ Sorensen_SIAM_1992,
-author = {D. C. Sorensen},
+author = {D C Sorensen},
 title = {Implicit application of polynomial filters in a k-step {A}rnoldi method},
 journal = {SIAM J. Matrix Anal. Appl.},
 volume = {13},
@@ -186,10 +640,205 @@ year = {1992},
 }
 
 @Article{ Stewart_SIAM_2001,
-author = {G. W. Stewart},
+author = {G W Stewart},
 title = {A {K}rylov-{S}chur algorithm for large eigenproblems},
 journal = {SIAM J. Matrix Anal. Appl.},
 volume = {23},
 year = {2001},
 pages = {601--614},
 }
+
+@book{book:antoulas:2005,
+  title={Approximation of large-scale dynamical systems},
+  author={Antoulas, A C},
+  year={2005},
+  publisher={SIAM}
+}
+
+@article{jfm:loiseau:2014,
+  title={Investigation of the roughness-induced transition: global stability analyses and direct numerical simulations},
+  author={Loiseau, Jean-Christophe and Robinet, Jean-Christophe and Cherubini, Stefania and Leriche, Emmanuel},
+  journal={Journal of Fluid Mechanics},
+  volume={760},
+  pages={175--211},
+  year={2014},
+  publisher={Cambridge University Press}
+}
+
+@article{pof:citro:2015,
+  title={Global stability and sensitivity analysis of boundary-layer flows past a hemispherical roughness element},
+  author={Citro, V and Giannetti, F and Luchini, P and Auteri, F},
+  journal={Physics of Fluids},
+  volume={27},
+  number={8},
+  pages={084110},
+  year={2015},
+  publisher={AIP Publishing}
+}
+
+@article{jfm:bucci:2018,
+  title={Roughness-induced transition by quasi-resonance of a varicose global mode},
+  author={Bucci, MA and Puckert, DK and Andriano, C and Loiseau, J-Ch and Cherubini, S and Robinet, J-Ch and Rist, U},
+  journal={Journal of Fluid Mechanics},
+  volume={836},
+  pages={167--191},
+  year={2018},
+  publisher={Cambridge University Press}
+}
+
+@article{jfm:ilak:2012,
+  title={Bifurcation and stability analysis of a jet in cross-flow: onset of global instability at a low velocity ratio},
+  author={Ilak, Milo{\v{s}} and Schlatter, Philipp and Bagheri, Shervin and Henningson, Dan S},
+  journal={Journal of Fluid Mechanics},
+  volume={696},
+  pages={94--121},
+  year={2012},
+  publisher={Cambridge University Press}
+}
+
+
+
+
+
+##### OPTIMIZATION PROBLEM #####
+
+@book{book:hestenes:1952,
+  title={Methods of conjugate gradients for solving linear systems},
+  author={Hestenes, Magnus Rudolph and Stiefel, Eduard},
+  volume={49},
+  number={1},
+  year={1952},
+  publisher={NBS Washington, DC}
+}
+
+@book{book:golub:2012,
+  title={Matrix computations},
+  author={Golub, Gene H and Van Loan, Charles F},
+  volume={3},
+  year={2012},
+  publisher={JHU Press}
+}
+
+@book{book:saad:2003,
+  title={Iterative methods for sparse linear systems},
+  author={Saad, Yousef},
+  volume={82},
+  year={2003},
+  publisher={siam}
+}
+
+
+@Article{jfm:foures:2014,
+  author = {D. P. G. Foures and C. P. Caulfield and P. J. Schmid},
+  title = {Variational framework for flow optimization using seminorm constraints‏},
+  journal = {Physical Review E},
+  year = {2014},
+  volume = {86 (2)},
+  pages = {026306},
+}
+
+@Article{FCS2012,
+  author = {D. P. G. Foures and C. P. Caulfield and P. J. Schmid},
+  title = {Optimal mixing in two-dimensional plane {P}oiseuille flow at finite {P}\'eclet number},
+  journal = {J. Fluid Mech.},
+  year = {2012},
+  volume = {748},
+  pages = {241--277},
+}
+
+@Article{jfm:foures:2013,
+  author = {D. P. G. Foures and C. P. Caulfield and P. J. Schmid},
+  title = {Localization of flow structures using $\infty$-norm optimization},
+  journal = {J. Fluid Mech.},
+  year = {2013},
+  volume = {729},
+  pages = {672--701},
+}
+
+@article{fdr:farano:2016,
+  title={Subcritical transition scenarios via linear and nonlinear localized optimal perturbations in plane Poiseuille flow},
+  author={Farano, Mirko and Cherubini, Stefania and Robinet, Jean-Christophe and De Palma, Pietro},
+  journal={Fluid Dynamics Research},
+  volume={48},
+  number={6},
+  pages={061409},
+  year={2016},
+  publisher={IOP Publishing}
+}
+
+@article{jfm:monokrousos:2010,
+  title={Global three-dimensional optimal disturbances in the Blasius boundary-layer flow using time-steppers},
+  author={Monokrousos, Antonios and {\AA}kervik, Espen and Brandt, Luca and Henningson, Dan S},
+  journal={Journal of Fluid Mechanics},
+  volume={650},
+  pages={181--214},
+  year={2010},
+  publisher={Cambridge University Press}
+}
+
+@article{M2016,
+  title={Transition to turbulence in wall-bounded flows: Where do we stand?},
+  author={Manneville, P.},
+  journal={Mechanical Engineering Reviews},
+  volume={3(2)},
+  pages={15-00684},
+  year={2016}
+}
+
+##### APPLICATION #####
+
+@article{FALP2007,
+  title={Visualizations of the flow inside an open cavity at medium range Reynolds numbers},
+  author={Faure, T. M and Adrianos, P. and Lusseyran, F. and Pastur, L.},
+  journal={Exp Fluids},
+  volume={42},
+  pages={169--184},
+  year={2007}
+}
+
+@article{FPLFB2009,
+  title={Three-dimensional centrifugal instabilities development inside a parallelepipedic open cavity of various shape},
+  author={Faure, T. M and Pastur, L. and Lusseyran, F. and Fraigneau, Y. and Bisch, D.},
+  journal={Exp Fluids},
+  volume={47},
+  pages={395--410},
+  year={2009}
+}
+
+@article{BLLFD2011,
+  title={Experimental investigation of global structures in an incompressible cavity flow using time-resolved PIV},
+  author={Basley, J. and Pastur, L. R. and Lusseyran, F. and Faure, T. M. and Delprat, N.},
+  journal={Exp Fluids},
+  volume={50},
+  pages={905--918},
+  year={2011}
+}
+
+##### CONCLUSION #####
+
+@article{rasthofer2017large,
+  title={Large scale simulation of cloud cavitation collapse},
+  author={Rasthofer, U and Wermelinger, F and Hadijdoukas, P and Koumoutsakos, P},
+  journal={Procedia Computer Science},
+  volume={108},
+  pages={1763--1772},
+  year={2017},
+  publisher={Elsevier}
+}
+
+@article{TapenadeRef13,
+  author = {Hasco{\"e}t, L. and Pascual, V.},
+  title = {The {T}apenade {A}utomatic {D}ifferentiation tool: {P}rinciples, {M}odel, and {S}pecification},
+  journal = "{ACM} {T}ransactions {O}n {M}athematical {S}oftware",
+  volume = 39,
+  number = 3,
+  URL = "http://dx.doi.org/10.1145/2450153.2450158",
+  year=2013
+}
+
+@phdthesis{phd:bucci:2017,
+	Author = {Bucci, A. M.},
+	School = {{\'Ecole Nationale Sup{\'e}rieure d'Arts et M{\'e}tiers-ENSAM}},
+	Title = {Subcritical and supercritical dynamics of incompressible flow over miniaturized roughness elements},
+	Year = {2017}
+  }

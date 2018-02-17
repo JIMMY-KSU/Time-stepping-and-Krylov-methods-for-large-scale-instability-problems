@@ -10,7 +10,7 @@ plt.rcParams['text.latex.preamble']=[r'\usepackage{lmodern}']
 plt.rcParams.update(params)
 colors = [ 'dimgrey', 'royalblue', 'orange', 'seagreen', 'y' ]
 
-fig_width = 7.5*2./2.54
+fig_width = 11.7/2.54
 
 def duffing_oscillator(x, t=None):
 

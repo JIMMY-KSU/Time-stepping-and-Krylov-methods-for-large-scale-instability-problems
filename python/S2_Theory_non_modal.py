@@ -35,7 +35,7 @@ plt.rcParams['text.latex.preamble']=[r'\usepackage{lmodern}']
 plt.rcParams.update(params)
 colors = [ 'dimgrey', 'royalblue', 'orange', 'seagreen', 'y' ]
 
-fig_width = 7.5*2./2.54
+fig_width = 11.7/2.54
 
 def diff_matrices(problem_setup):
 
@@ -224,7 +224,7 @@ if __name__ == '__main__':
     gain = np.zeros_like(beta)
 
     # --> Setup figure.
-    fig = plt.figure(figsize=(fig_width/2, fig_width/3))
+    fig = plt.figure(figsize=(fig_width/2, fig_width/4))
     ax = fig.gca()
 
     for j in xrange(beta.size):
@@ -304,7 +304,7 @@ if __name__ == '__main__':
     v = v.real * np.cos(2*beta*z) - v.imag * np.sin(2*beta*z)
     w = w.real * np.cos(2*beta*z) - w.imag * np.sin(2*beta*z)
 
-    fig, axes = plt.subplots(1, 2, figsize=(fig_width, fig_width/3))
+    fig, axes = plt.subplots(1, 2, figsize=(fig_width, fig_width/4))
 
 
     ax = axes[0]
